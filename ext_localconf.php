@@ -1,27 +1,31 @@
 <?php
 
 if (!defined('TYPO3_MODE')) {
-	die ('Access denied.');
+    die ('Access denied.');
 }
 
 //Register cache
 if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_bgmhreflang_cache'])) {
-	$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_bgmhreflang_cache'] = array();
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_bgmhreflang_cache'] = array();
 }
 //Clear cache whene page cache is cleared
 if (version_compare(TYPO3_branch, '6.2', '<')) {
-	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'EXT:bgm_hreflang/Classes/Hooks/ClearCacheHook.php:&BGM\\BgmHreflang\\Hooks\\ClearCacheHook->clear';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] = 'EXT:bgm_hreflang/Classes/Hooks/ClearCacheHook.php:&BGM\\BgmHreflang\\Hooks\\ClearCacheHook->clear';
 } else {
-	if (!isset($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tx_bgmhreflang_cache']['groups'])) {
-		$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_bgmhreflang_cache']['groups'] = array('pages', 'all');
-	}
+    if (!isset($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tx_bgmhreflang_cache']['groups'])) {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_bgmhreflang_cache']['groups'] = array('pages', 'all');
+    }
 }
 
 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl')) {
-    foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['countryMapping'] as $countryMapping) {
-        if (isset($countryMapping['domainName'])) {
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']['getHost'][] = 'EXT:bgm_hreflang/Classes/Hooks/RealUrlHostHook.php:&BGM\\BgmHreflang\\Hooks\\RealUrlHostHook->getHost';
-            break;
+    if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['countryMapping']) &&
+        is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['countryMapping'])
+    ) {
+        foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['countryMapping'] as $countryMapping) {
+            if (isset($countryMapping['domainName'])) {
+                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']['getHost'][] = 'EXT:bgm_hreflang/Classes/Hooks/RealUrlHostHook.php:&BGM\\BgmHreflang\\Hooks\\RealUrlHostHook->getHost';
+                break;
+            }
         }
     }
 }
