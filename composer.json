@@ -2,7 +2,7 @@
 	"name": "bgm/bgm-hreflang",
 	"description": "An extension to add hreflang meta tags. Page translations are added automatically as hreflang tags. Editors can configure other pages in the page properties which should be added as hreflang tags.",
 	"type": "typo3-cms-extension",
-	"version": "3.0.3-dev",
+	"version": "3.0.2",
 	"keywords": [
 		"typo3",
 		"extension"
