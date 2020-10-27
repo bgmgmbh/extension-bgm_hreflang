@@ -54,7 +54,7 @@ typo3_8lts php_7-2:
   variables:
     TYPO3_VERSION: ^8
 
-typo3_9lts php_7-2:
+.test_gte9: &test_gte9_php
   <<: *test_php
   image: php:7.2-alpine
   variables:
@@ -68,3 +68,21 @@ typo3_9lts php_7-2:
     - php composer-setup.php --no-ansi --install-dir=/usr/bin --filename=composer --version=1.10.16
     - php -r "unlink('composer-setup.php'); unlink('installer.sig');"
     - composer require typo3/minimal="${TYPO3_VERSION}"
+
+typo3_9lts php_7-2:
+  <<: *test_gte9_php
+  image: php:7.2-alpine
+  variables:
+    TYPO3_VERSION: ^9
+
+typo3_10lts php_7-2:
+  <<: *test_gte9_php
+  image: php:7.2-alpine
+  variables:
+    TYPO3_VERSION: ^10
+
+typo3_10lts php_7-4:
+  <<: *test_gte9_php
+  image: php:7.4-alpine
+  variables:
+    TYPO3_VERSION: ^10
