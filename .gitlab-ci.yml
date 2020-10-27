@@ -30,59 +30,26 @@ variables:
     - php -r "if (hash_file('SHA384', 'composer-setup.php') === file_get_contents('installer.sig')) { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
     - php composer-setup.php --no-ansi --install-dir=/usr/bin --filename=composer --version=1.10.16
     - php -r "unlink('composer-setup.php'); unlink('installer.sig');"
-    - composer require typo3/cms="${TYPO3_VERSION}"
+    - composer require typo3/minimal="${TYPO3_VERSION}"
   script:
     - find 'Tests/Functional' -wholename '*Test.php' | parallel --gnu 'echo; echo "Running functional test suite {}"; .Build/bin/phpunit --colors  -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml {}'
   tags:
     - docker
 
-typo3_8lts php_7-0:
-  <<: *test_php
-  image: php:7.0-alpine
-  variables:
-    TYPO3_VERSION: ^8
-
-typo3_8lts php_7-1:
-  <<: *test_php
-  image: php:7.1-alpine
-  variables:
-    TYPO3_VERSION: ^8
-
-typo3_8lts php_7-2:
-  <<: *test_php
-  image: php:7.2-alpine
-  variables:
-    TYPO3_VERSION: ^8
-
-.test_gte9: &test_gte9_php
-  <<: *test_php
-  image: php:7.2-alpine
-  variables:
-    TYPO3_VERSION: ^9
-  before_script:
-    - apk --no-cache add bash curl git mercurial openssh openssl parallel subversion tini
-    - docker-php-ext-install mysqli
-    - wget https://composer.github.io/installer.sig -O - -q | tr -d '\n' > installer.sig
-    - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-    - php -r "if (hash_file('SHA384', 'composer-setup.php') === file_get_contents('installer.sig')) { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-    - php composer-setup.php --no-ansi --install-dir=/usr/bin --filename=composer --version=1.10.16
-    - php -r "unlink('composer-setup.php'); unlink('installer.sig');"
-    - composer require typo3/minimal="${TYPO3_VERSION}"
-
 typo3_9lts php_7-2:
-  <<: *test_gte9_php
+  <<: *test_php
   image: php:7.2-alpine
   variables:
     TYPO3_VERSION: ^9
 
 typo3_10lts php_7-2:
-  <<: *test_gte9_php
+  <<: *test_php
   image: php:7.2-alpine
   variables:
     TYPO3_VERSION: ^10
 
 typo3_10lts php_7-4:
-  <<: *test_gte9_php
+  <<: *test_php
   image: php:7.4-alpine
   variables:
     TYPO3_VERSION: ^10

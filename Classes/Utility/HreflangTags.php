@@ -436,19 +436,15 @@ class HreflangTags {
 			);
 		}
 
-		if(version_compare(TYPO3_branch, '9.0', '<')){
-			$translations = array_keys($GLOBALS['TYPO3_DB']->exec_SELECTgetRows('sys_language_uid', 'pages_language_overlay', 'pid=' . intval($pageId) . ' AND deleted+hidden=0 ', '', '', '', 'sys_language_uid'));
-		} else {
-			$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-				->getQueryBuilderForTable('pages');
-			$translations = $queryBuilder
-				->select('sys_language_uid')
-				->from('pages')
-				->where($queryBuilder->expr()->eq('l10n_parent', intval($pageId)))
-				->andWhere($queryBuilder->expr()->gt('sys_language_uid', 0))
-				->execute()
-				->fetchAll();
-		}
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+			->getQueryBuilderForTable('pages');
+		$translations = $queryBuilder
+			->select('sys_language_uid')
+			->from('pages')
+			->where($queryBuilder->expr()->eq('l10n_parent', intval($pageId)))
+			->andWhere($queryBuilder->expr()->gt('sys_language_uid', 0))
+			->execute()
+			->fetchAll();
 		foreach ($translations as $translation) {
 			if($translation['sys_language_uid']){
 				$translation = $translation['sys_language_uid'];
