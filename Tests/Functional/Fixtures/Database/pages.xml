@@ -3,15 +3,18 @@
     <pages>
         <uid>1</uid>
         <pid>0</pid>
+        <doktype>1</doktype>
         <title>Root</title>
+        <slug>/</slug>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
     </pages>
     <pages>
         <uid>2</uid>
         <pid>1</pid>
+        <doktype>1</doktype>
         <title>International</title>
-        <slug>International</slug>
+        <slug>/</slug>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
         <is_siteroot>1</is_siteroot>
@@ -19,48 +22,54 @@
     <pages>
         <uid>3</uid>
         <pid>2</pid>
+        <doktype>1</doktype>
         <title>International-1</title>
-        <slug>International-1</slug>
+        <slug>/International-1</slug>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
     </pages>
     <pages>
         <uid>4</uid>
         <pid>2</pid>
+        <doktype>1</doktype>
         <title>International-2</title>
-        <slug>International-2</slug>
+        <slug>/International-2</slug>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
     </pages>
     <pages>
         <uid>5</uid>
         <pid>4</pid>
+        <doktype>1</doktype>
         <title>International-2-1</title>
-        <slug>International-2-1</slug>
+        <slug>/International-2-1</slug>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
     </pages>
     <pages>
         <uid>6</uid>
         <pid>2</pid>
+        <doktype>1</doktype>
         <title>International-3</title>
-        <slug>International-3</slug>
+        <slug>/International-3</slug>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
     </pages>
     <pages>
         <uid>7</uid>
         <pid>2</pid>
+        <doktype>1</doktype>
         <title>International-4</title>
-        <slug>International-4</slug>
+        <slug>/International-4</slug>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
     </pages>
     <pages>
         <uid>8</uid>
         <pid>1</pid>
+        <doktype>1</doktype>
         <title>Deutschland</title>
-        <slug>Deutschland</slug>
+        <slug>/</slug>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
         <is_siteroot>1</is_siteroot>
@@ -68,48 +77,54 @@
     <pages>
         <uid>9</uid>
         <pid>8</pid>
+        <doktype>1</doktype>
         <title>Deutschland-1</title>
-        <slug>Deutschland-1</slug>
+        <slug>/Deutschland-1</slug>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
     </pages>
     <pages>
         <uid>10</uid>
         <pid>8</pid>
+        <doktype>1</doktype>
         <title>Deutschland-2</title>
-        <slug>Deutschland-2</slug>
+        <slug>/Deutschland-2</slug>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
     </pages>
     <pages>
         <uid>11</uid>
         <pid>10</pid>
+        <doktype>1</doktype>
         <title>Deutschland-2-1</title>
-        <slug>Deutschland-2-1</slug>
+        <slug>/Deutschland-2-1</slug>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
     </pages>
     <pages>
         <uid>12</uid>
         <pid>8</pid>
+        <doktype>1</doktype>
         <title>Deutschland-3</title>
-        <slug>Deutschland-3</slug>
+        <slug>/Deutschland-3</slug>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
     </pages>
     <pages>
         <uid>13</uid>
         <pid>8</pid>
+        <doktype>1</doktype>
         <title>Deutschland-4</title>
-        <slug>Deutschland-4</slug>
+        <slug>/Deutschland-4</slug>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
     </pages>
     <pages>
         <uid>14</uid>
         <pid>1</pid>
+        <doktype>1</doktype>
         <title>Schweiz</title>
-        <slug>Schweiz</slug>
+        <slug>/</slug>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
         <is_siteroot>1</is_siteroot>
@@ -117,8 +132,9 @@
     <pages>
         <uid>15</uid>
         <pid>14</pid>
+        <doktype>1</doktype>
         <title>Schweiz-1</title>
-        <slug>Schweiz-1</slug>
+        <slug>/Schweiz-1</slug>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
     </pages>
@@ -126,7 +142,7 @@
         <uid>16</uid>
         <pid>14</pid>
         <title>Schweiz-2</title>
-        <slug>Schweiz-2</slug>
+        <slug>/Schweiz-2</slug>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
         <doktype>7</doktype>
@@ -136,25 +152,29 @@
     <pages>
         <uid>17</uid>
         <pid>14</pid>
+        <doktype>1</doktype>
         <title>Schweiz-3</title>
-        <slug>Schweiz-3</slug>
+        <slug>/Schweiz-3</slug>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
     </pages>
     <pages>
         <uid>18</uid>
         <pid>14</pid>
+        <doktype>1</doktype>
         <title>Schweiz-4</title>
-        <slug>Schweiz-4</slug>
+        <slug>/Schweiz-4</slug>
         <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
     </pages>
     <pages>
         <uid>19</uid>
         <pid>14</pid>
+        <doktype>1</doktype>
         <l10n_parent>15</l10n_parent>
+        <l10n_source>15</l10n_source>
         <title>Schweiz-1 [IT]</title>
-        <slug>Schweiz-1-IT</slug>
+        <slug>/Schweiz-1-IT</slug>
         <deleted>0</deleted>
         <hidden>0</hidden>
         <sys_language_uid>1</sys_language_uid>
@@ -162,9 +182,11 @@
     <pages>
         <uid>20</uid>
         <pid>14</pid>
+        <doktype>1</doktype>
         <l10n_parent>15</l10n_parent>
+        <l10n_source>15</l10n_source>
         <title>Schweiz-1 [FR]</title>
-        <slug>Schweiz-1-FR</slug>
+        <slug>/Schweiz-1-FR</slug>
         <deleted>0</deleted>
         <hidden>0</hidden>
         <sys_language_uid>2</sys_language_uid>
@@ -173,8 +195,9 @@
         <uid>21</uid>
         <pid>14</pid>
         <l10n_parent>16</l10n_parent>
+        <l10n_source>16</l10n_source>
         <title>Schweiz-2 [IT]</title>
-        <slug>Schweiz-2-IT</slug>
+        <slug>/Schweiz-2-IT</slug>
         <deleted>0</deleted>
         <hidden>0</hidden>
         <sys_language_uid>1</sys_language_uid>
@@ -183,9 +206,11 @@
     <pages>
         <uid>22</uid>
         <pid>14</pid>
+        <doktype>1</doktype>
         <l10n_parent>17</l10n_parent>
+        <l10n_source>17</l10n_source>
         <title>Schweiz-3 [IT]</title>
-        <slug>Schweiz-3-IT</slug>
+        <slug>/Schweiz-3-IT</slug>
         <deleted>0</deleted>
         <hidden>0</hidden>
         <sys_language_uid>1</sys_language_uid>
@@ -193,9 +218,11 @@
     <pages>
         <uid>23</uid>
         <pid>14</pid>
+        <doktype>1</doktype>
         <l10n_parent>18</l10n_parent>
+        <l10n_source>18</l10n_source>
         <title>Schweiz-4 [FR]</title>
-        <slug>Schweiz-4-FR</slug>
+        <slug>/Schweiz-4-FR</slug>
         <deleted>0</deleted>
         <hidden>0</hidden>
         <sys_language_uid>2</sys_language_uid>

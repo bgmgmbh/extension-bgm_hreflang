@@ -67,21 +67,21 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
                 $this->fixturePath . 'Frontend/Page.ts'
             ),
             array(
-                2 => $this->fixturePath . 'Frontend/site-int.yaml',
+                'int' => $this->fixturePath . 'Frontend/site-int.yaml',
             ));
         $this->setUpFrontendRootPage(8, // page id
             array( // array of TypoScript files which should be included
                 $this->fixturePath . 'Frontend/Page.ts'
             ),
             array(
-                8 => $this->fixturePath . 'Frontend/site-de.yaml',
+                'de' => $this->fixturePath . 'Frontend/site-de.yaml',
             ));
         $this->setUpFrontendRootPage(14, // page id
             array( // array of TypoScript files which should be included
                 $this->fixturePath . 'Frontend/Page.ts'
             ),
             array(
-                14 => $this->fixturePath . 'Frontend/site-ch.yaml'
+                'ch' => $this->fixturePath . 'Frontend/site-ch.yaml'
             ));
     }
 

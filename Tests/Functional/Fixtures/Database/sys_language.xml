@@ -7,6 +7,7 @@
         <hidden>0</hidden>
         <title>Italian</title>
         <flag>it</flag>
+        <language_isocode>it</language_isocode>
     </sys_language>
     <sys_language>
         <uid>2</uid>
@@ -15,5 +16,6 @@
         <hidden>0</hidden>
         <title>French</title>
         <flag>fr</flag>
+        <language_isocode>fr</language_isocode>
     </sys_language>
 </dataset>
