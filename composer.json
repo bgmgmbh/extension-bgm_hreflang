@@ -29,8 +29,7 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"BGM\\BgmHreflang\\Tests\\": "Tests",
-			"TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests/"
+			"BGM\\BgmHreflang\\Tests\\": "Tests"
 		}
 	},
 	"replace": {
@@ -42,12 +41,15 @@
 	},
 	"scripts": {
 		"post-autoload-dump": [
-			"mkdir -p .Build/Web/typo3conf/ext/",
-			"[ -L .Build/Web/typo3conf/ext/bgm_hreflang ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/bgm_hreflang"
+			"@prepare-extension-test-structure"
+		],
+		"prepare-extension-test-structure": [
+			"Nimut\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
 		]
 	},
 	"extra": {
 		"typo3/cms": {
+			"extension-key": "bgm_hreflang",
 			"cms-package-dir": "{$vendor-dir}/typo3/cms",
 			"web-dir": ".Build/Web"
 		}
