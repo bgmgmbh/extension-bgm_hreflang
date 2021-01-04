@@ -1,6 +1,9 @@
 <?php
 namespace BGM\BgmHreflang\Tests\Functional;
 
+use Nimut\TestingFramework\Http\Response;
+use PHPUnit\Util\PHP\DefaultPhpProcess;
+
 /**
  * Class FirstFunctionalTest
  * https://de.slideshare.net/cpsitgmbh/functional-tests-with-typo3
@@ -92,7 +95,6 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      */
     public function international1PageOutput()
     {
-
         $response = $this->getFrontendResponse(3);
         $this->assertEquals(
             trim('
@@ -108,13 +110,65 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
     }
 
     /**
+     * Page "International-1" is connected with "Deutschland-1" and "Schweiz-1"
+     *
+     * @test
+     */
+    public function deutschland1PageOutput()
+    {
+        $this->assertEquals(
+            trim($this->getFrontendResponse(3)->getContent()),
+            trim($this->getFrontendResponse(9)->getContent())
+        );
+    }
+
+    /**
+     * Page "International-1" is connected with "Deutschland-1" and "Schweiz-1"
+     *
+     * @test
+     */
+    public function schweiz1PageOutput()
+    {
+        $this->assertEquals(
+            trim($this->getFrontendResponse(3)->getContent()),
+            trim($this->getFrontendResponse(15)->getContent())
+        );
+    }
+
+    /**
+     * Page "International-1" is connected with "Deutschland-1" and "Schweiz-1"
+     *
+     * @test
+     */
+    public function schweiz1ItPageOutput()
+    {
+        $this->assertEquals(
+            trim($this->getFrontendResponse(3)->getContent()),
+            trim($this->getFrontendResponse(15,1)->getContent())
+        );
+    }
+
+    /**
+     * Page "International-1" is connected with "Deutschland-1" and "Schweiz-1"
+     *
+     * @test
+     */
+    public function schweiz1FrPageOutput()
+    {
+        $this->assertEquals(
+            trim($this->getFrontendResponse(3)->getContent()),
+            trim($this->getFrontendResponse(15,2)->getContent())
+        );
+    }
+
+
+    /**
      * Page "International-2" is connected with "Deutschland-2" and mounted to "Schweiz-2"
      *
      * @test
      */
     public function international2PageOutput()
     {
-
         $response = $this->getFrontendResponse(4);
         $this->assertEquals(
             trim('
@@ -128,13 +182,39 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
     }
 
     /**
+     * Page "International-2" is connected with "Deutschland-2" and mounted to "Schweiz-2"
+     *
+     * @test
+     */
+    public function deutschland2PageOutput()
+    {
+        $this->assertEquals(
+            trim($this->getFrontendResponse(4)->getContent()),
+            trim($this->getFrontendResponse(10)->getContent())
+        );
+    }
+
+    /**
+     * Page "International-2" is connected with "Deutschland-2" and mounted to "Schweiz-2"
+     *
+     * @test
+     */
+    public function schweiz2PageOutput()
+    {
+        $this->assertEquals(
+            trim($this->getFrontendResponse(4)->getContent()),
+            trim($this->getFrontendResponseWithMountpoint(4,0,16)->getContent())
+        );
+    }
+
+
+    /**
      * Page "International-3" is connected with "Deutschland-3" and "Deutschland-3" is connected to "Schweiz-3"
      *
      * @test
      */
     public function international3PageOutput()
     {
-
         $response = $this->getFrontendResponse(6);
         $this->assertEquals(
             trim('
@@ -145,6 +225,45 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
 <link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/International-3" />
             '),
             trim($response->getContent())
+        );
+    }
+
+    /**
+     * Page "International-3" is connected with "Deutschland-3" and "Deutschland-3" is connected to "Schweiz-3"
+     *
+     * @test
+     */
+    public function deutsch3PageOutput()
+    {
+        $this->assertEquals(
+            trim($this->getFrontendResponse(6)->getContent()),
+            trim($this->getFrontendResponse(12)->getContent())
+        );
+    }
+
+    /**
+     * Page "International-3" is connected with "Deutschland-3" and "Deutschland-3" is connected to "Schweiz-3"
+     *
+     * @test
+     */
+    public function schweiz3PageOutput()
+    {
+        $this->assertEquals(
+            trim($this->getFrontendResponse(6)->getContent()),
+            trim($this->getFrontendResponse(17)->getContent())
+        );
+    }
+
+    /**
+     * Page "International-3" is connected with "Deutschland-3" and "Deutschland-3" is connected to "Schweiz-3"
+     *
+     * @test
+     */
+    public function schweiz3ItPageOutput()
+    {
+        $this->assertEquals(
+            trim($this->getFrontendResponse(6)->getContent()),
+            trim($this->getFrontendResponse(17, 1)->getContent())
         );
     }
 
@@ -199,5 +318,71 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
             '),
             trim($response->getContent())
         );
+    }
+
+
+
+    /**
+     * \Nimut\TestingFramework\TestCase\AbstractFunctionalTestCase::getFrontendResponse extended for MountPages $mp
+     *
+     * @param int $pageId
+     * @param int $languageId
+     * @param int $mp
+     * @param int $backendUserId
+     * @param int $workspaceId
+     * @param bool $failOnFailure
+     * @param int $frontendUserId
+     * @return Response
+     */
+    protected function getFrontendResponseWithMountpoint($pageId, $languageId = 0, $mp=0, $backendUserId = 0, $workspaceId = 0, $failOnFailure = true, $frontendUserId = 0)
+    {
+        $pageId = (int)$pageId;
+        $languageId = (int)$languageId;
+        $mp = (int)$mp;
+
+        $additionalParameter = '';
+
+        if ($mp > 0) {
+            $additionalParameter .= '&MP=' . $mp . '-' . $pageId;
+        }
+        if (!empty($frontendUserId)) {
+            $additionalParameter .= '&frontendUserId=' . (int)$frontendUserId;
+        }
+        if (!empty($backendUserId)) {
+            $additionalParameter .= '&backendUserId=' . (int)$backendUserId;
+        }
+        if (!empty($workspaceId)) {
+            $additionalParameter .= '&workspaceId=' . (int)$workspaceId;
+        }
+
+        $arguments = [
+            'documentRoot' => $this->getInstancePath(),
+            'requestUrl' => 'http://localhost/?id=' . $pageId . '&L=' . $languageId . $additionalParameter,
+        ];
+
+        $template = new \Text_Template('ntf://Frontend/Request.tpl');
+        $template->setVar(
+            [
+                'arguments' => var_export($arguments, true),
+                'originalRoot' => ORIGINAL_ROOT,
+                'ntfRoot' => __DIR__ . '/../../',
+            ]
+        );
+
+        $php = DefaultPhpProcess::factory();
+        $response = $php->runJob($template->render());
+        $result = json_decode($response['stdout'], true);
+
+        if ($result === null) {
+            $this->fail('Frontend Response is empty.' . LF . 'Error: ' . LF . $response['stderr']);
+        }
+
+        if ($failOnFailure && $result['status'] === Response::STATUS_Failure) {
+            $this->fail('Frontend Response has failure:' . LF . $result['error']);
+        }
+
+        $response = new Response($result['status'], $result['content'], $result['error']);
+
+        return $response;
     }
 }
