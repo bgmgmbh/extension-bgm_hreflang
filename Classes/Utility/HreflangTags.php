@@ -3,6 +3,7 @@ namespace BGM\BgmHreflang\Utility;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\HttpUtility;
 
 class HreflangTags {
 
@@ -581,8 +582,18 @@ class HreflangTags {
 			$domainParts = parse_url($this->additionalParameters['domainName']);
 			$GLOBALS['TSFE']->register['buildHreflangLink'] = $domainParts['host'];
 		}
-		$link = $GLOBALS['TSFE']->cObj->currentPageUrl($this->getParameters, $this->relatedPage);
-		$link = \TYPO3\CMS\Core\Utility\GeneralUtility::locationHeaderUrl($link);
+		$conf = [];
+		$conf['returnLast'] = 'url';
+		$conf['forceAbsoluteUrl'] = 1;
+		$conf['parameter'] = $this->relatedPage;
+		if (is_array($this->getParameters)) {
+			if (!empty($this->getParameters)) {
+				$conf['additionalParams'] .= HttpUtility::buildQueryString($this->getParameters, '&');
+			}
+		} else {
+			$conf['additionalParams'] .= $this->getParameters;
+		}
+		$link = $GLOBALS['TSFE']->cObj->typoLink_URL($conf);
 		if ($this->additionalParameters['domainName']) {
 			$linkParts = parse_url($link);
 			$linkParts['scheme'] = strlen($domainParts['scheme']) > 0 ? $domainParts['scheme'] : $linkParts['scheme'];
