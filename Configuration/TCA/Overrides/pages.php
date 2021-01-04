@@ -65,7 +65,7 @@ $tempColumns = array(
 		'l10n_mode' => 'exclude',
 		'label' => 'LLL:EXT:bgm_hreflang/Resources/Private/Language/Backend.xlf:pages.tx_bgmhreflang_list',
 		'config' => array(
-			'type' => 'user',
+			'type' => 'none',
 			'renderType' => 'bgmhreflangList',
 		),
 	),
