@@ -2,8 +2,10 @@
 namespace BGM\BgmHreflang\Utility;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
 
 class HreflangTags {
 
@@ -11,13 +13,6 @@ class HreflangTags {
 	 * @var \TYPO3\CMS\Core\Cache\Frontend\FrontendInterface
 	 */
 	protected $cacheInstance;
-
-	/**
-	 * t3lib_page object for finding rootline on the fly
-	 *
-	 * @var \TYPO3\CMS\Frontend\Page\PageRepository
-	 */
-	protected $sysPage;
 
 	/**
 	 * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher
@@ -416,7 +411,9 @@ class HreflangTags {
 	protected function buildHreflangAttributes($pageId, $mountPoint='') {
 		$this->hreflangAttributes = array();
 
-		$rootline = $this->getRootLine($pageId, $mountPoint);
+		/** @var RootlineUtility $rootlineUtility */
+		$rootlineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pageId, $mountPoint);
+		$rootline = $rootlineUtility->get();
 		$rootPageId = $this->getRootPageId($rootline);
 
 		$countryMapping = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['countryMapping'][intval($rootPageId)];
@@ -519,20 +516,6 @@ class HreflangTags {
 	}
 
 	/**
-	 * Get the rootline for $pageId and $mountPoint (mpvar)
-	 *
-	 * @param integer $pageId
-	 * @param string $mountPoint
-	 * @return array
-	 */
-	protected function getRootLine($pageId, $mountPoint = ''){
-		$this->createSysPageIfNecessary();
-		$rootline = $this->sysPage->getRootLine($pageId, $mountPoint);
-
-		return $rootline;
-	}
-
-	/**
 	 * Search for the closest page with is_siteroot=1 in the rootline
 	 *
 	 * @param array $rootline
@@ -547,18 +530,6 @@ class HreflangTags {
 			}
 		}
 		return $rootPageId;
-	}
-
-	/**
-	 * Creates $this->sysPage if it does not exist yet.
-	 *
-	 * @return void
-	 */
-	protected function createSysPageIfNecessary() {
-		if (!is_object($this->sysPage)) {
-			$this->sysPage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\Page\\PageRepository');
-			$this->sysPage->init($GLOBALS['TSFE']->showHiddenPage || $GLOBALS['TSFE']->beUserLogin);
-		}
 	}
 
 	/**
