@@ -7,6 +7,7 @@ if (!defined('TYPO3_MODE')) {
 $tempColumns = array(
 	'tx_bgmhreflang_1' => array(
 		'exclude' => 0,
+		'l10n_mode' => 'exclude',
 		'label' => 'LLL:EXT:bgm_hreflang/Resources/Private/Language/Backend.xlf:pages.tx_bgmhreflang_1',
 		'config' => array(
 			'type' => 'group',
@@ -33,6 +34,7 @@ $tempColumns = array(
 	),
 	'tx_bgmhreflang_2' => array(
 		'exclude' => 0,
+		'l10n_mode' => 'exclude',
 		'label' => 'LLL:EXT:bgm_hreflang/Resources/Private/Language/Backend.xlf:pages.tx_bgmhreflang_2',
 		'config' => array(
 			'type' => 'group',
@@ -60,6 +62,7 @@ $tempColumns = array(
 	),
 	'tx_bgmhreflang_list' => array(
 		'exclude' => 0,
+		'l10n_mode' => 'exclude',
 		'label' => 'LLL:EXT:bgm_hreflang/Resources/Private/Language/Backend.xlf:pages.tx_bgmhreflang_list',
 		'config' => array(
 			'type' => 'user',
