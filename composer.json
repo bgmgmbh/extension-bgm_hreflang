@@ -34,7 +34,6 @@
 		}
 	},
 	"replace": {
-		"bgm_hreflang": "self.version",
 		"typo3-ter/bgm-hreflang": "self.version"
 	},
 	"config": {
