@@ -56,20 +56,32 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
         $this->fixturePath = ORIGINAL_ROOT . 'typo3conf/ext/bgm_hreflang/Tests/Functional/Fixtures/';
 
         // Import own fixtures
-        if(version_compare(TYPO3_branch, '9.0', '<')){
-            $this->importDataSet($this->fixturePath . 'Database/pages.xml');
-            $this->importDataSet($this->fixturePath . 'Database/pages_language_overlay.xml');
-        } else {
-            $this->importDataSet($this->fixturePath . 'Database/pages_translations.xml');
-        }
+        $this->importDataSet($this->fixturePath . 'Database/pages.xml');
         $this->importDataSet($this->fixturePath . 'Database/sys_language.xml');
         $this->importDataSet($this->fixturePath . 'Database/tx_bgmhreflang_page_page_mm.xml');
         $this->importDataSet($this->fixturePath . 'Database/be_users.xml');
 
         // Set up the frontend!
-        $this->setUpFrontendRootPage(1, // page id
+        $this->setUpFrontendRootPage(2, // page id
             array( // array of TypoScript files which should be included
                 $this->fixturePath . 'Frontend/Page.ts'
+            ),
+            array(
+                2 => $this->fixturePath . 'Frontend/site-int.yaml',
+            ));
+        $this->setUpFrontendRootPage(8, // page id
+            array( // array of TypoScript files which should be included
+                $this->fixturePath . 'Frontend/Page.ts'
+            ),
+            array(
+                8 => $this->fixturePath . 'Frontend/site-de.yaml',
+            ));
+        $this->setUpFrontendRootPage(14, // page id
+            array( // array of TypoScript files which should be included
+                $this->fixturePath . 'Frontend/Page.ts'
+            ),
+            array(
+                14 => $this->fixturePath . 'Frontend/site-ch.yaml'
             ));
     }
 
@@ -84,12 +96,12 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
         $response = $this->getFrontendResponse(3);
         $this->assertEquals(
             trim('
-<link rel="alternate" hreflang="de-at" href="http://localhost/index.php?id=9" />
-<link rel="alternate" hreflang="de-ch" href="http://localhost/index.php?id=15&foo=bar" />
-<link rel="alternate" hreflang="de-de" href="http://localhost/index.php?id=9" />
-<link rel="alternate" hreflang="fr-ch" href="http://localhost/index.php?id=15&L=2&foo=bar&john=doe" />
-<link rel="alternate" hreflang="it-ch" href="http://localhost/index.php?id=15&L=1" />
-<link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/index.php?id=3" />
+<link rel="alternate" hreflang="de-at" href="https://localhost.de/Deutschland-1" />
+<link rel="alternate" hreflang="de-ch" href="https://localhost.ch/Schweiz-1?foo=bar&cHash=7a5f8a7975c1f91d259d2bb88dccf0df" />
+<link rel="alternate" hreflang="de-de" href="https://localhost.de/Deutschland-1" />
+<link rel="alternate" hreflang="fr-ch" href="https://localhost.ch/fr/Schweiz-1-FR?foo=bar&john=doe&cHash=5afbb5ff7a67583390b09be874629980" />
+<link rel="alternate" hreflang="it-ch" href="https://localhost.ch/it/Schweiz-1-IT" />
+<link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/International-1" />
             '),
             trim($response->getContent())
         );
@@ -106,10 +118,10 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
         $response = $this->getFrontendResponse(4);
         $this->assertEquals(
             trim('
-<link rel="alternate" hreflang="de-at" href="http://localhost/index.php?id=10" />
-<link rel="alternate" hreflang="de-ch" href="http://localhost/index.php?id=4&MP=4-16&foo=bar" />
-<link rel="alternate" hreflang="de-de" href="http://localhost/index.php?id=10" />
-<link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/index.php?id=4" />
+<link rel="alternate" hreflang="de-at" href="https://localhost.de/Deutschland-2" />
+<link rel="alternate" hreflang="de-ch" href="https://localhost.ch/Schweiz-2/?foo=bar&cHash=fb805caf50da7b828f05388cde30f48d" />
+<link rel="alternate" hreflang="de-de" href="https://localhost.de/Deutschland-2" />
+<link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/International-2" />
             '),
             trim($response->getContent())
         );
@@ -126,11 +138,11 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
         $response = $this->getFrontendResponse(6);
         $this->assertEquals(
             trim('
-<link rel="alternate" hreflang="de-at" href="http://localhost/index.php?id=12" />
-<link rel="alternate" hreflang="de-ch" href="http://localhost/index.php?id=17&foo=bar" />
-<link rel="alternate" hreflang="de-de" href="http://localhost/index.php?id=12" />
-<link rel="alternate" hreflang="it-ch" href="http://localhost/index.php?id=17&L=1" />
-<link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/index.php?id=6" />
+<link rel="alternate" hreflang="de-at" href="https://localhost.de/Deutschland-3" />
+<link rel="alternate" hreflang="de-ch" href="https://localhost.ch/Schweiz-3?foo=bar&cHash=12f678c69502e2f1fb75c2ecbcc90cbb" />
+<link rel="alternate" hreflang="de-de" href="https://localhost.de/Deutschland-3" />
+<link rel="alternate" hreflang="it-ch" href="https://localhost.ch/it/Schweiz-3-IT" />
+<link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/International-3" />
             '),
             trim($response->getContent())
         );
@@ -147,7 +159,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
         $response = $this->getFrontendResponse(7);
         $this->assertEquals(
             trim('
-<link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/index.php?id=7" />
+<link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/International-4" />
             '),
             trim($response->getContent())
         );
@@ -164,8 +176,8 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
         $response = $this->getFrontendResponse(13);
         $this->assertEquals(
             trim('
-<link rel="alternate" hreflang="de-at" href="http://localhost/index.php?id=13" />
-<link rel="alternate" hreflang="de-de" href="http://localhost/index.php?id=13" />
+<link rel="alternate" hreflang="de-at" href="https://localhost.de/Deutschland-4" />
+<link rel="alternate" hreflang="de-de" href="https://localhost.de/Deutschland-4" />
             '),
             trim($response->getContent())
         );
@@ -182,8 +194,8 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
         $response = $this->getFrontendResponse(18);
         $this->assertEquals(
             trim('
-<link rel="alternate" hreflang="de-ch" href="http://localhost/index.php?id=18&foo=bar" />
-<link rel="alternate" hreflang="fr-ch" href="http://localhost/index.php?id=18&L=2&foo=bar&john=doe" />
+<link rel="alternate" hreflang="de-ch" href="https://localhost.ch/Schweiz-4?foo=bar&cHash=4d8a62b1a79ee2ddddabca654e2c3932" />
+<link rel="alternate" hreflang="fr-ch" href="https://localhost.ch/fr/Schweiz-4-FR?foo=bar&john=doe&cHash=2d8550c63aa242df7d48ace518a32d91" />
             '),
             trim($response->getContent())
         );
