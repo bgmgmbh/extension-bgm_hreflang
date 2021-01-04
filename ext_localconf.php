@@ -13,6 +13,12 @@ if (!isset($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tx_bgmhref
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_bgmhreflang_cache']['groups'] = array('pages', 'all');
 }
 
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1603836773] = [
+    'nodeName' => 'bgmhreflangList',
+    'priority' => 40,
+    'class' => \BGM\BgmHreflang\Form\Element\HreflangTagsElement::class,
+];
+
 /**
  * DEMO CONFIGURATION
  */

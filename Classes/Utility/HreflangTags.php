@@ -105,14 +105,13 @@ class HreflangTags {
 	/**
 	 * Render the related pages and the shortest path to them
 	 *
-	 * @param $content
-	 * @param $parentObject
+	 * @param int $uid
 	 */
-	public function renderBackendList($conf, $formEngineObject){
+	public function renderBackendList($uid){
 		$this->renderedList = '';
 		$this->renderedListItems = array();
-		if(intval($conf['row']['uid']) > 0) {
-			$relations = $this->getCachedRelations($conf['row']['uid']);
+		if((int) $uid > 0) {
+			$relations = $this->getCachedRelations((int) $uid);
 
 			foreach($relations as $this->relatedPage => $info){
 				$this->signalSlotDispatcher->dispatch(__CLASS__, 'backend_beforeRenderSinglePage', array($this));

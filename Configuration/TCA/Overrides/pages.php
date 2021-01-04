@@ -63,11 +63,11 @@ $tempColumns = array(
 		'label' => 'LLL:EXT:bgm_hreflang/Resources/Private/Language/Backend.xlf:pages.tx_bgmhreflang_list',
 		'config' => array(
 			'type' => 'user',
-			'userFunc' => 'BGM\BgmHreflang\Utility\HreflangTags->renderBackendList',
+			'renderType' => 'bgmhreflangList',
 		),
 	),
 );
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('pages', $tempColumns, 1);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('pages', $tempColumns);
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette('pages', 'tx_bgmhreflang', 'tx_bgmhreflang_1,--linebreak--,tx_bgmhreflang_2,--linebreak--,tx_bgmhreflang_list');
 $GLOBALS['TCA']['pages']['palettes']['tx_bgmhreflang']['canNotCollapse'] = 1;
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('pages', '--palette--;LLL:EXT:bgm_hreflang/Resources/Private/Language/Backend.xlf:pages.palette.tx_bgmhreflang;tx_bgmhreflang;;', '', 'after:lastUpdated');
