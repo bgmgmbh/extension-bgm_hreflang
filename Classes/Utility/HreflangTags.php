@@ -2,10 +2,11 @@
 namespace BGM\BgmHreflang\Utility;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Frontend\Service\TypoLinkCodecService;
 
 class HreflangTags {
 
@@ -151,18 +152,6 @@ class HreflangTags {
 
 			$relations = $this->getCachedRelations($GLOBALS['TSFE']->id);
 
-			$mpdefaultsConfig = $GLOBALS['TSFE']->config['config']['MP_defaults'];
-			$GLOBALS['TSFE']->config['config']['MP_defaults'] = '';
-			$mpdefaults = $GLOBALS['TSFE']->MP_defaults;
-			$GLOBALS['TSFE']->MP_defaults = array();
-			$mpdisable = $GLOBALS['TSFE']->config['config']['MP_disableTypolinkClosestMPvalue'];
-			$GLOBALS['TSFE']->config['config']['MP_disableTypolinkClosestMPvalue'] = 1;
-			$mpmaprootpoints = $GLOBALS['TSFE']->config['config']['MP_mapRootPoints'];
-			$GLOBALS['TSFE']->config['config']['MP_mapRootPoints'] = '';
-			$linkVarsConfig = $GLOBALS['TSFE']->config['config']['linkVars'];
-			$GLOBALS['TSFE']->config['config']['linkVars'] = implode(',', array_diff(\TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $linkVarsConfig), array('L')));
-			$linkVars = $GLOBALS['TSFE']->linkVars;
-			$GLOBALS['TSFE']->linkVars = implode('&', array_diff(\TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('&', $linkVars), array('L='. $GLOBALS['TSFE']->sys_language_uid)));
 			foreach ($relations as $this->relatedPage => $info) {
 				foreach ($info as $this->hreflangAttribute => $this->additionalParameters) {
 					$this->renderedListItem = '';
@@ -189,12 +178,6 @@ class HreflangTags {
 				}
 			}
 			sort($this->renderedListItems);
-			$GLOBALS['TSFE']->config['config']['MP_defaults'] = $mpdefaultsConfig;
-			$GLOBALS['TSFE']->MP_defaults = $mpdefaults;
-			$GLOBALS['TSFE']->config['config']['MP_disableTypolinkClosestMPvalue'] = $mpdisable;
-			$GLOBALS['TSFE']->config['config']['MP_mapRootPoints'] = $mpmaprootpoints;
-			$GLOBALS['TSFE']->config['config']['linkVars'] = $linkVarsConfig;
-			$GLOBALS['TSFE']->linkVars = $linkVars;
 			$this->renderedList = "\n" . implode($this->renderedListItems, "\n") . "\n";
 		}
 
@@ -545,33 +528,49 @@ class HreflangTags {
 	 * @return string
 	 */
 	protected function buildLink() {
-		if ($this->additionalParameters['domainName']) {
-			$domainParts = parse_url($this->additionalParameters['domainName']);
-			$GLOBALS['TSFE']->register['buildHreflangLink'] = $domainParts['host'];
-		}
-		$conf = [];
-		$conf['returnLast'] = 'url';
-		$conf['forceAbsoluteUrl'] = 1;
-		$conf['parameter'] = $this->relatedPage;
 		if (is_array($this->getParameters)) {
 			if (!empty($this->getParameters)) {
-				$conf['additionalParams'] .= HttpUtility::buildQueryString($this->getParameters, '&');
+				$additionalParams = HttpUtility::buildQueryString($this->getParameters, '&');
 			}
 		} else {
-			$conf['additionalParams'] .= $this->getParameters;
+			$additionalParams = $this->getParameters;
 		}
-		$link = $GLOBALS['TSFE']->cObj->typoLink_URL($conf);
+		$contentObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+		$link = $contentObject->typoLink_URL(
+			[
+				'parameter' => self::createTypolinkParameterFromArguments($this->relatedPage, $additionalParams),
+				'forceAbsoluteUrl' => true
+			]
+		);
 		if ($this->additionalParameters['domainName']) {
 			$linkParts = parse_url($link);
+			$domainParts = parse_url($this->additionalParameters['domainName']);
 			$linkParts['scheme'] = strlen($domainParts['scheme']) > 0 ? $domainParts['scheme'] : $linkParts['scheme'];
 			$linkParts['host'] = strlen($domainParts['host']) > 0 ? $domainParts['host'] : $linkParts['host'];
 			$linkParts['port'] = strlen($domainParts['port']) > 0 ? $domainParts['port'] : $linkParts['port'];
 			$linkParts['user'] = strlen($domainParts['user']) > 0 ? $domainParts['user'] : $linkParts['user'];
 			$linkParts['pass'] = strlen($domainParts['pass']) > 0 ? $domainParts['pass'] : $linkParts['pass'];
 			$link = $this->unparse_url($linkParts);
-			$GLOBALS['TSFE']->register['buildHreflangLink'] = '';
 		}
 		return $link;
+	}
+
+	/**
+	 * Transforms ViewHelper arguments to typo3link.parameters.typoscript option as array.
+	 *
+	 * @param string $parameter Example: 19 _blank - "testtitle with whitespace" &X=y
+	 * @param string $additionalParameters
+	 *
+	 * @return string The final TypoLink string
+	 */
+	protected static function createTypolinkParameterFromArguments($parameter, $additionalParameters = '')
+	{
+		$typoLinkCodec = GeneralUtility::makeInstance(TypoLinkCodecService::class);
+		$typolinkConfiguration = $typoLinkCodec->decode($parameter);
+		if ($additionalParameters) {
+			$typolinkConfiguration['additionalParams'] .= $additionalParameters;
+		}
+		return $typoLinkCodec->encode($typolinkConfiguration);
 	}
 
 	/**
