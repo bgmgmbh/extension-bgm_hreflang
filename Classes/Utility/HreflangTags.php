@@ -2,6 +2,7 @@
 
 namespace BGM\BgmHreflang\Utility;
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -94,7 +95,7 @@ class HreflangTags
 
     public function __construct()
     {
-        $this->signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\SignalSlot\\Dispatcher');
+        $this->signalSlotDispatcher = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\SignalSlot\\Dispatcher');
     }
 
     /**
@@ -111,7 +112,7 @@ class HreflangTags
 
             foreach ($relations as $this->relatedPage => $info) {
                 $this->signalSlotDispatcher->dispatch(__CLASS__, 'backend_beforeRenderSinglePage', [$this]);
-                $this->renderedListItem = '<li>' . \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordPath($this->relatedPage, '', 1000) . ' [' . $this->relatedPage . ']';
+                $this->renderedListItem = '<li>' . BackendUtility::getRecordPath($this->relatedPage, '', 1000) . ' [' . $this->relatedPage . ']';
                 $this->hreflangAttributes = [];
                 foreach ($info as $this->hreflangAttribute => $this->additionalParameters) {
                     $this->validRelation = true;
@@ -149,7 +150,7 @@ class HreflangTags
         $this->renderedList = '';
         $this->renderedListItems = [];
         if ((int)($GLOBALS['TSFE']->id) > 0) {
-            $this->getParameters = \TYPO3\CMS\Core\Utility\GeneralUtility::_GET();
+            $this->getParameters = GeneralUtility::_GET();
 
             $relations = $this->getCachedRelations($GLOBALS['TSFE']->id);
 
@@ -157,7 +158,7 @@ class HreflangTags
                 foreach ($info as $this->hreflangAttribute => $this->additionalParameters) {
                     $this->renderedListItem = '';
                     $this->validRelation = true;
-                    $this->getParameters = \TYPO3\CMS\Core\Utility\GeneralUtility::_GET();
+                    $this->getParameters = GeneralUtility::_GET();
                     unset($this->getParameters['id']);
                     $this->getParameters['L'] = (int)($this->additionalParameters['sysLanguageUid']);
                     unset($this->getParameters['MP']);
@@ -165,7 +166,9 @@ class HreflangTags
                         $this->getParameters['MP'] = $this->additionalParameters['mountPoint'];
                     }
                     if (strlen($this->additionalParameters['additionalGetParameters']) > 0) {
-                        $this->getParameters = array_merge($this->getParameters, \TYPO3\CMS\Core\Utility\GeneralUtility::explodeUrl2Array($this->additionalParameters['additionalGetParameters'], true));
+                        $additionalParameters = [];
+                        parse_str($this->additionalParameters['additionalGetParameters']??'', $additionalParameters);
+                        $this->getParameters = array_merge($this->getParameters, $additionalParameters);
                     }
 
                     $this->signalSlotDispatcher->dispatch(__CLASS__, 'frontend_beforeRenderSingleTag', [$this]);
@@ -254,7 +257,7 @@ class HreflangTags
     }
 
     /**
-     * @param string $additionalParameters
+     * @param array $additionalParameters
      */
     public function setAdditionalParameters($additionalParameters)
     {
@@ -262,7 +265,7 @@ class HreflangTags
     }
 
     /**
-     * @return string
+     * @return array
      */
     public function getAdditionalParameters()
     {
@@ -384,9 +387,9 @@ class HreflangTags
             ->where($queryBuilder->expr()->eq('uid_local', (int)$pageId))
             ->execute()
             ->fetchAll();
-        for ($i = 0; $i < count($directRelations); $i++) {
-            if (!isset($relations[$directRelations[$i]['uid_foreign']])) {
-                $this->buildRelations($directRelations[$i]['uid_foreign'], $relations);
+        foreach ($directRelations as $directRelation) {
+            if (!isset($relations[$directRelation['uid_foreign']])) {
+                $this->buildRelations($directRelation['uid_foreign'], $relations);
             }
         }
 
@@ -396,9 +399,9 @@ class HreflangTags
             ->where($queryBuilder->expr()->eq('uid_foreign', (int)$pageId))
             ->execute()
             ->fetchAll();
-        for ($i = 0; $i < count($indirectRelations); $i++) {
-            if (!isset($relations[$indirectRelations[$i]['uid_local']])) {
-                $this->buildRelations($indirectRelations[$i]['uid_local'], $relations);
+        foreach ($indirectRelations as $indirectRelation) {
+            if (!isset($relations[$indirectRelation['uid_local']])) {
+                $this->buildRelations($indirectRelation['uid_local'], $relations);
             }
         }
     }
@@ -481,10 +484,10 @@ class HreflangTags
 
         if (strlen($mountPoint) == 0) { //@TODO nested mountpoints are to expensive
             //check, if the current page is mounted somewhere
-            $mountPoints = $this->getMountpoints($rootline);
-            if (count($mountPoints) > 0) {
-                foreach ($mountPoints as $mountPoint) {
-                    $this->hreflangAttributes = array_merge($this->hreflangAttributes, $this->buildHreflangAttributes($pageId, $mountPoint['mountPoint']));
+            $rootlineMountPoints = $this->getMountpoints($rootline);
+            if (count($rootlineMountPoints) > 0) {
+                foreach ($rootlineMountPoints as $rootlineMountPoint) {
+                    $this->hreflangAttributes = array_merge($this->hreflangAttributes, $this->buildHreflangAttributes($pageId, $rootlineMountPoint['mountPoint']));
                 }
             }
         }
@@ -608,7 +611,7 @@ class HreflangTags
     /**
      * Create and returns an instance of the CacheManager
      *
-     * @return CacheManager
+     * @return object|\Psr\Log\LoggerAwareInterface|CacheManager|\TYPO3\CMS\Core\SingletonInterface
      */
     protected function getCacheManager()
     {
