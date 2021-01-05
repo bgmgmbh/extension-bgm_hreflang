@@ -1,6 +1,8 @@
 <?php
 namespace BGM\BgmHreflang\Utility;
 
+use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
@@ -9,11 +11,6 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Service\TypoLinkCodecService;
 
 class HreflangTags {
-
-	/**
-	 * @var \TYPO3\CMS\Core\Cache\Frontend\FrontendInterface
-	 */
-	protected $cacheInstance;
 
 	/**
 	 * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher
@@ -95,7 +92,6 @@ class HreflangTags {
 
 	public function __construct(){
 		$this->signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\SignalSlot\\Dispatcher');
-		$this->initializeCache();
 	}
 
 	/**
@@ -324,11 +320,10 @@ class HreflangTags {
 	public function getCachedRelations($pageId){
 		// get relations from cache
 		$cacheIdentifier = $pageId;
-		$cacheTag = 'pageId_' . $pageId;
-		$relationsFromCache = $this->cacheInstance->getByTag($cacheTag);
+		$relationFromCache = $this->getCacheInstance()->get($cacheIdentifier);
 		//Check, if the current page is already cached
-		if(count($relationsFromCache)>0 && is_array($relationsFromCache[0][$cacheIdentifier])){
-			$relations = $relationsFromCache[0];
+		if(is_array($relationFromCache)){
+			$relations = $relationFromCache;
 		} else {
 		// If $relationsFromCache is empty array, it hasn't been cached. Calculate the value and store it in the cache:
 			$relations = array();
@@ -339,10 +334,10 @@ class HreflangTags {
 			$tags = array_map(function ($value) {
 				return 'pageId_' . $value;
 			}, array_keys($relations));
-			foreach($tags as $tag){
-				$this->cacheInstance->flushByTag($tag);
+			if (!empty($tags)) {
+				$this->getCacheManager()->flushCachesInGroupByTags('pages', $tags);
 			}
-			$this->cacheInstance->set((string) $cacheIdentifier, $relations, $tags, 84000);
+			$this->getCacheInstance()->set((string) $cacheIdentifier, $relations, $tags, 84000);
 		}
 
 		return $relations;
@@ -516,15 +511,6 @@ class HreflangTags {
 	}
 
 	/**
-	 * Initialize cache instance to be ready to use
-	 *
-	 * @return void
-	 */
-	protected function initializeCache() {
-		$this->cacheInstance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->getCache('tx_bgmhreflang_cache');
-	}
-
-	/**
 	 * @return string
 	 */
 	protected function buildLink() {
@@ -588,6 +574,24 @@ class HreflangTags {
 		$query = isset($parsed_url['query']) ? '?' . $parsed_url['query'] : '';
 		$fragment = isset($parsed_url['fragment']) ? '#' . $parsed_url['fragment'] : '';
 		return $scheme . $user . $pass . $host . $port . $path . $query . $fragment;
+	}
+
+	/**
+	 * Create and returns an instance of the CacheManager
+	 *
+	 * @return CacheManager
+	 */
+	protected function getCacheManager()
+	{
+		return GeneralUtility::makeInstance(CacheManager::class);
+	}
+
+	/**
+	 * @return FrontendInterface
+	 * @throws \TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException
+	 */
+	protected function getCacheInstance() {
+		return $this->getCacheManager()->getCache('tx_bgmhreflang_cache');
 	}
 }
 
