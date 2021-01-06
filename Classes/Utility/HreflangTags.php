@@ -6,6 +6,8 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
@@ -378,13 +380,17 @@ class HreflangTags
     protected function buildRelations($pageId, &$relations)
     {
         $relations[$pageId] = $this->buildHreflangAttributes($pageId);
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable('tx_bgmhreflang_page_page_mm');
 
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable('pages');
+        $queryBuilder->getRestrictions()->removeAll()
+            ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
         $directRelations = $queryBuilder
-            ->select('*')
-            ->from('tx_bgmhreflang_page_page_mm')
-            ->where($queryBuilder->expr()->eq('uid_local', (int)$pageId))
+            ->select('mm.*')
+            ->from('tx_bgmhreflang_page_page_mm', 'mm')
+            ->leftJoin('mm', 'pages', 'p', 'mm.uid_foreign = p.uid')
+            ->where($queryBuilder->expr()->eq('mm.uid_local', (int)$pageId))
             ->execute()
             ->fetchAll();
         foreach ($directRelations as $directRelation) {
@@ -393,10 +399,16 @@ class HreflangTags
             }
         }
 
-        $indirectRelations = $queryBuilder
-            ->select('*')
-            ->from('tx_bgmhreflang_page_page_mm')
-            ->where($queryBuilder->expr()->eq('uid_foreign', (int)$pageId))
+        /** @var QueryBuilder $queryBuilder2 */
+        $queryBuilder2 = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable('pages');
+        $queryBuilder2->getRestrictions()->removeAll()
+            ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+        $indirectRelations = $queryBuilder2
+            ->select('mm.*')
+            ->from('tx_bgmhreflang_page_page_mm', 'mm')
+            ->leftJoin('mm', 'pages', 'p', 'mm.uid_local = p.uid')
+            ->where($queryBuilder2->expr()->eq('mm.uid_foreign', (int)$pageId))
             ->execute()
             ->fetchAll();
         foreach ($indirectRelations as $indirectRelation) {
@@ -511,6 +523,8 @@ class HreflangTags
         }
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getQueryBuilderForTable('pages');
+        $queryBuilder->getRestrictions()->removeAll()
+            ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
         $mountPoints = $queryBuilder
             ->selectLiteral('CONCAT(mount_pid, "-", uid) AS mountPoint')
             ->from('pages')

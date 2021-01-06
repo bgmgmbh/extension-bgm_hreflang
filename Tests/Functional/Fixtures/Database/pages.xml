@@ -65,6 +65,15 @@
         <perms_everybody>15</perms_everybody>
     </pages>
     <pages>
+        <uid>24</uid>
+        <pid>2</pid>
+        <doktype>1</doktype>
+        <title>International-5 linked to deleted page</title>
+        <slug>/International-5</slug>
+        <deleted>0</deleted>
+        <perms_everybody>15</perms_everybody>
+    </pages>
+    <pages>
         <uid>8</uid>
         <pid>1</pid>
         <doktype>1</doktype>
@@ -117,6 +126,15 @@
         <title>Deutschland-4</title>
         <slug>/Deutschland-4</slug>
         <deleted>0</deleted>
+        <perms_everybody>15</perms_everybody>
+    </pages>
+    <pages>
+        <uid>25</uid>
+        <pid>8</pid>
+        <doktype>1</doktype>
+        <title>Deutschland-5 deleted page</title>
+        <slug>/Deutschland-5</slug>
+        <deleted>1</deleted>
         <perms_everybody>15</perms_everybody>
     </pages>
     <pages>

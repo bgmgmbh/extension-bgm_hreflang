@@ -322,6 +322,22 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
     }
 
     /**
+     * Page "International-5" is connected to deleted Page "Deutschland-5"
+     *
+     * @test
+     */
+    public function international5PageOutput()
+    {
+        $response = $this->getFrontendResponse(24);
+        self::assertEquals(
+            trim('
+<link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/International-5" />
+            '),
+            trim($response->getContent())
+        );
+    }
+
+    /**
      * \Nimut\TestingFramework\TestCase\AbstractFunctionalTestCase::getFrontendResponse extended for MountPages $mp
      *
      * @param int $pageId
