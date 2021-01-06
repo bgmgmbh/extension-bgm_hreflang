@@ -29,5 +29,6 @@
    * 2021-01-05 [TASK] Code style with php-cs
    * 2021-01-05 [TASK] Manual code style fixes
    * 2021-01-05 [TASK] Update changelog
+   * 2021-01-06 [TASK] Update documentation
 
 There is still one open TODO: Test, what happens when there are nested mountpoints.

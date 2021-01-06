@@ -41,7 +41,7 @@ The configuration is done in the AdditionalConfiguration.php or your Theme-Exten
 			//This optional 'additionalGetParameters' can be assigned to every language of the current country
 			'additionalGetParameters' => array(
 				//"sys_language_uid" has to be unique in the array $additionalGetParameters!
-				sys_language_uid => isolanguagecode,
+				sys_language_uid => additionalGetParameters,
 
 				//Example
 				1 => '&foo=bar&john=doe', //append &foo=bar&john=doe to the link to sys_language 1 in this country
@@ -89,7 +89,7 @@ The configuration is done in the AdditionalConfiguration.php or your Theme-Exten
 	//If $_GET['L']==0, pages in this tree are rendered with hreflang="x-default", else only the isolanguagecode is used (without the isocountrycode)
 	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['defaultCountryId'] = 61;
 
-And you need some TypoScript::
+And you need some TypoScript:
 
     page.headerData.30 = USER
     page.headerData.30 {
