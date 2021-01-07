@@ -9,5 +9,6 @@
    * 2021-01-07 [TASK] Ignore relations to deleted pages
    * 2021-01-07 [BUGFIX] Catch rootline errors
    * 2021-01-07 [TASK] Test translated default country branch prepares issue #9
+   * 2021-01-07 [TASK] Test default country without countryCode, f.e. if defaultCountry is "International" (no real country)
 
 There is still one open TODO: Test, what happens when there are nested mountpoints.
