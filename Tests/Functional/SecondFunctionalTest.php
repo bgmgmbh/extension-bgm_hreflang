@@ -36,6 +36,7 @@ class SecondFunctionalTest extends FirstFunctionalTest
                             0 => '&foo=bar',
                             2 => '&foo=bar&john=doe',
                         ],
+                        'additionalCountries' => ['ch2'],
                     ],
                 ],
                 'defaultCountryId' => 2,

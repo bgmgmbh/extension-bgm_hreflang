@@ -497,6 +497,9 @@ class HreflangTags implements LoggerAwareInterface
                     ];
                 }
                 foreach ($translations as $translation) {
+                    if ($translation['sys_language_uid']) {
+                        $translation = $translation['sys_language_uid'];
+                    }
                     if (isset($countryMapping['languageMapping'][$translation])) {
                         $this->hreflangAttributes[$countryMapping['languageMapping'][$translation] . '-' . $additionalCountry] = [
                             'sysLanguageUid' => $translation,
