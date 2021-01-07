@@ -17,3 +17,9 @@ Prerequisites
 * If you have MountPages, try to set `config.MP_disableTypolinkClosestMPvalue = 1` in your TypoScript setup.
 
 Since version 4.0 you have to use the new page translation without the table "pages_language_overlay"!
+
+Since TYPO3 10 you can deactivate the hreflang tags built with the new Core API for meta tags, f.e. from EXT:seo:
+
+.. code:: php
+
+	unset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\CMS\Frontend\Page\PageGenerator']['generateMetaTags']['hreflang']);
