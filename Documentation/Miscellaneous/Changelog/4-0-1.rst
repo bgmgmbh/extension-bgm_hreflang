@@ -8,5 +8,6 @@
    * 2021-01-06 [TASK] Set to development version
    * 2021-01-07 [TASK] Ignore relations to deleted pages
    * 2021-01-07 [BUGFIX] Catch rootline errors
+   * 2021-01-07 [TASK] Test translated default country branch prepares issue #9
 
 There is still one open TODO: Test, what happens when there are nested mountpoints.

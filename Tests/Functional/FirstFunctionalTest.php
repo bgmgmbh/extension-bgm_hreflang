@@ -28,7 +28,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
                 'countryMapping' => [
                     2 => [ //International
                         'countryCode' => 'en',
-                        'languageMapping' => [0 => 'en'],
+                        'languageMapping' => [0 => 'en', 1 => 'it'],
                         'domainName' => 'https://www.my-domain.com',
                     ],
                     8 => [ //Germany and Austria
@@ -348,6 +348,40 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
         self::assertEquals(
             trim('
 <link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/International-6" />
+            '),
+            trim($response->getContent())
+        );
+    }
+
+    /**
+     * Page "International-7" is translated and in default tree
+     *
+     * @test
+     */
+    public function international7PageOutput()
+    {
+        $response = $this->getFrontendResponse(29);
+        self::assertEquals(
+            trim('
+<link rel="alternate" hreflang="it" href="https://www.my-domain.com/it/International-7-IT" />
+<link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/International-7" />
+            '),
+            trim($response->getContent())
+        );
+    }
+
+    /**
+     * Page "International-7" is translated and in default tree
+     *
+     * @test
+     */
+    public function international7ItPageOutput()
+    {
+        $response = $this->getFrontendResponse(29, 1);
+        self::assertEquals(
+            trim('
+<link rel="alternate" hreflang="it" href="https://www.my-domain.com/it/International-7-IT" />
+<link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/International-7" />
             '),
             trim($response->getContent())
         );
