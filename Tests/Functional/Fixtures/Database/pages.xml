@@ -74,6 +74,15 @@
         <perms_everybody>15</perms_everybody>
     </pages>
     <pages>
+        <uid>26</uid>
+        <pid>2</pid>
+        <doktype>1</doktype>
+        <title>International-6 linked to page without rootline</title>
+        <slug>/International-6</slug>
+        <deleted>0</deleted>
+        <perms_everybody>15</perms_everybody>
+    </pages>
+    <pages>
         <uid>8</uid>
         <pid>1</pid>
         <doktype>1</doktype>
@@ -135,6 +144,24 @@
         <title>Deutschland-5 deleted page</title>
         <slug>/Deutschland-5</slug>
         <deleted>1</deleted>
+        <perms_everybody>15</perms_everybody>
+    </pages>
+    <pages>
+        <uid>27</uid>
+        <pid>8</pid>
+        <doktype>1</doktype>
+        <title>Deutschland-6 deleted parent page for not deleted lost page</title>
+        <slug>/Deutschland-6</slug>
+        <deleted>1</deleted>
+        <perms_everybody>15</perms_everybody>
+    </pages>
+    <pages>
+        <uid>28</uid>
+        <pid>27</pid>
+        <doktype>1</doktype>
+        <title>Deutschland-7 not deleted lost page has deleted parent page</title>
+        <slug>/Deutschland-7</slug>
+        <deleted>0</deleted>
         <perms_everybody>15</perms_everybody>
     </pages>
     <pages>

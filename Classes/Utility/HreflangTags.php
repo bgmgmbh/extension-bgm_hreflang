@@ -2,6 +2,8 @@
 
 namespace BGM\BgmHreflang\Utility;
 
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
@@ -14,8 +16,9 @@ use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Service\TypoLinkCodecService;
 
-class HreflangTags
+class HreflangTags implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
 
     /**
      * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher
@@ -429,10 +432,22 @@ class HreflangTags
     {
         $this->hreflangAttributes = [];
 
-        /** @var RootlineUtility $rootlineUtility */
-        $rootlineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pageId, $mountPoint);
-        $rootline = $rootlineUtility->get();
+        try {
+            /** @var RootlineUtility $rootlineUtility */
+            $rootlineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pageId, $mountPoint);
+            $rootline = $rootlineUtility->get();
+        } catch (\Exception $exception) {
+            $this->logger->error('Exception while getting rootline for page ' . (int)$pageId, [
+                'Exception ' . $exception->getCode(),
+                $exception->getMessage()
+            ]);
+            return $this->hreflangAttributes;
+        }
         $rootPageId = $this->getRootPageId($rootline);
+        if($rootPageId === 0){
+            $this->logger->error('Page ' . (int)$pageId . 'has no rootline!');
+            return $this->hreflangAttributes;
+        }
 
         $countryMapping = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['countryMapping'][(int)$rootPageId];
         $defaultCountryId = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['defaultCountryId'];

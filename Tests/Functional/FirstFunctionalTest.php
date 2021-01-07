@@ -338,6 +338,22 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
     }
 
     /**
+     * Page "International-6" is connected to lost Page "Deutschland-7" wich has a deleted parent Page "Deutschland-6"
+     *
+     * @test
+     */
+    public function international6PageOutput()
+    {
+        $response = $this->getFrontendResponse(26);
+        self::assertEquals(
+            trim('
+<link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/International-6" />
+            '),
+            trim($response->getContent())
+        );
+    }
+
+    /**
      * \Nimut\TestingFramework\TestCase\AbstractFunctionalTestCase::getFrontendResponse extended for MountPages $mp
      *
      * @param int $pageId
