@@ -83,27 +83,6 @@
         <perms_everybody>15</perms_everybody>
     </pages>
     <pages>
-        <uid>29</uid>
-        <pid>2</pid>
-        <doktype>1</doktype>
-        <title>International-7 is translated</title>
-        <slug>/International-7</slug>
-        <deleted>0</deleted>
-        <perms_everybody>15</perms_everybody>
-    </pages>
-    <pages>
-        <uid>30</uid>
-        <pid>2</pid>
-        <doktype>1</doktype>
-        <l10n_parent>29</l10n_parent>
-        <l10n_source>29</l10n_source>
-        <title>International-7 is translated [IT]</title>
-        <slug>/International-7-IT</slug>
-        <deleted>0</deleted>
-        <hidden>0</hidden>
-        <sys_language_uid>1</sys_language_uid>
-    </pages>
-    <pages>
         <uid>8</uid>
         <pid>1</pid>
         <doktype>1</doktype>
