@@ -28,7 +28,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
                 'countryMapping' => [
                     2 => [ //International
                         'countryCode' => 'en',
-                        'languageMapping' => [0 => 'en'],
+                        'languageMapping' => [0 => 'en', 1 => 'it'],
                         'domainName' => 'https://www.my-domain.com',
                     ],
                     8 => [ //Germany and Austria
@@ -43,6 +43,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
                             0 => '&foo=bar',
                             2 => '&foo=bar&john=doe',
                         ],
+                        'additionalCountries' => ['ch2'], // to test a bugfix ;-)
                     ],
                 ],
                 'defaultCountryId' => 2,
@@ -106,9 +107,12 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
             trim('
 <link rel="alternate" hreflang="de-at" href="https://localhost.de/Deutschland-1" />
 <link rel="alternate" hreflang="de-ch" href="https://localhost.ch/Schweiz-1?foo=bar&cHash=7a5f8a7975c1f91d259d2bb88dccf0df" />
+<link rel="alternate" hreflang="de-ch2" href="https://localhost.ch/Schweiz-1?foo=bar&cHash=7a5f8a7975c1f91d259d2bb88dccf0df" />
 <link rel="alternate" hreflang="de-de" href="https://localhost.de/Deutschland-1" />
 <link rel="alternate" hreflang="fr-ch" href="https://localhost.ch/fr/Schweiz-1-FR?foo=bar&john=doe&cHash=5afbb5ff7a67583390b09be874629980" />
+<link rel="alternate" hreflang="fr-ch2" href="https://localhost.ch/fr/Schweiz-1-FR?foo=bar&john=doe&cHash=5afbb5ff7a67583390b09be874629980" />
 <link rel="alternate" hreflang="it-ch" href="https://localhost.ch/it/Schweiz-1-IT" />
+<link rel="alternate" hreflang="it-ch2" href="https://localhost.ch/it/Schweiz-1-IT" />
 <link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/International-1" />
             '),
             trim($response->getContent())
@@ -179,6 +183,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
             trim('
 <link rel="alternate" hreflang="de-at" href="https://localhost.de/Deutschland-2" />
 <link rel="alternate" hreflang="de-ch" href="https://localhost.ch/Schweiz-2/?foo=bar&cHash=fb805caf50da7b828f05388cde30f48d" />
+<link rel="alternate" hreflang="de-ch2" href="https://localhost.ch/Schweiz-2/?foo=bar&cHash=fb805caf50da7b828f05388cde30f48d" />
 <link rel="alternate" hreflang="de-de" href="https://localhost.de/Deutschland-2" />
 <link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/International-2" />
             '),
@@ -224,8 +229,10 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
             trim('
 <link rel="alternate" hreflang="de-at" href="https://localhost.de/Deutschland-3" />
 <link rel="alternate" hreflang="de-ch" href="https://localhost.ch/Schweiz-3?foo=bar&cHash=12f678c69502e2f1fb75c2ecbcc90cbb" />
+<link rel="alternate" hreflang="de-ch2" href="https://localhost.ch/Schweiz-3?foo=bar&cHash=12f678c69502e2f1fb75c2ecbcc90cbb" />
 <link rel="alternate" hreflang="de-de" href="https://localhost.de/Deutschland-3" />
 <link rel="alternate" hreflang="it-ch" href="https://localhost.ch/it/Schweiz-3-IT" />
+<link rel="alternate" hreflang="it-ch2" href="https://localhost.ch/it/Schweiz-3-IT" />
 <link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/International-3" />
             '),
             trim($response->getContent())
@@ -315,7 +322,9 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
         self::assertEquals(
             trim('
 <link rel="alternate" hreflang="de-ch" href="https://localhost.ch/Schweiz-4?foo=bar&cHash=4d8a62b1a79ee2ddddabca654e2c3932" />
+<link rel="alternate" hreflang="de-ch2" href="https://localhost.ch/Schweiz-4?foo=bar&cHash=4d8a62b1a79ee2ddddabca654e2c3932" />
 <link rel="alternate" hreflang="fr-ch" href="https://localhost.ch/fr/Schweiz-4-FR?foo=bar&john=doe&cHash=2d8550c63aa242df7d48ace518a32d91" />
+<link rel="alternate" hreflang="fr-ch2" href="https://localhost.ch/fr/Schweiz-4-FR?foo=bar&john=doe&cHash=2d8550c63aa242df7d48ace518a32d91" />
             '),
             trim($response->getContent())
         );
@@ -348,6 +357,40 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
         self::assertEquals(
             trim('
 <link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/International-6" />
+            '),
+            trim($response->getContent())
+        );
+    }
+
+    /**
+     * Page "International-7" is translated and in default tree
+     *
+     * @test
+     */
+    public function international7PageOutput()
+    {
+        $response = $this->getFrontendResponse(29);
+        self::assertEquals(
+            trim('
+<link rel="alternate" hreflang="it" href="https://www.my-domain.com/it/International-7-IT" />
+<link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/International-7" />
+            '),
+            trim($response->getContent())
+        );
+    }
+
+    /**
+     * Page "International-7" is translated and in default tree
+     *
+     * @test
+     */
+    public function international7ItPageOutput()
+    {
+        $response = $this->getFrontendResponse(29, 1);
+        self::assertEquals(
+            trim('
+<link rel="alternate" hreflang="it" href="https://www.my-domain.com/it/International-7-IT" />
+<link rel="alternate" hreflang="x-default" href="https://www.my-domain.com/International-7" />
             '),
             trim($response->getContent())
         );
