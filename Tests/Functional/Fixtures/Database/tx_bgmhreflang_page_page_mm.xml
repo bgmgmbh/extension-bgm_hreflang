@@ -35,4 +35,18 @@
 		<sorting>0</sorting>
 		<sorting_foreign>0</sorting_foreign>
 	</tx_bgmhreflang_page_page_mm>
+	<tx_bgmhreflang_page_page_mm>
+		<uid_local>24</uid_local>
+		<uid_foreign>25</uid_foreign>
+		<tablenames>pages</tablenames>
+		<sorting>0</sorting>
+		<sorting_foreign>0</sorting_foreign>
+	</tx_bgmhreflang_page_page_mm>
+	<tx_bgmhreflang_page_page_mm>
+		<uid_local>26</uid_local>
+		<uid_foreign>28</uid_foreign>
+		<tablenames>pages</tablenames>
+		<sorting>0</sorting>
+		<sorting_foreign>0</sorting_foreign>
+	</tx_bgmhreflang_page_page_mm>
 </dataset>

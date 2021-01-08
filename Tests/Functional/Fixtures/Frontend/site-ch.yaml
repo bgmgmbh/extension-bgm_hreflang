@@ -1,0 +1,38 @@
+rootPageId: '{rootPageId}'
+base: https://localhost.ch/
+languages:
+    -   title: Deutsch
+        enabled: true
+        languageId: '0'
+        base: /
+        typo3Language: default
+        locale: de_CH.UTF-8
+        iso-639-1: de
+        navigationTitle: Deutsch
+        hreflang: de-CH
+        direction: ltr
+        flag: de
+    -   title: Italian
+        enabled: true
+        languageId: '1'
+        base: /it/
+        typo3Language: it
+        locale: it_CH.UTF-8
+        iso-639-1: it
+        navigationTitle: Italiano
+        hreflang: it-CH
+        direction: ltr
+        flag: it
+    -   title: French
+        enabled: true
+        languageId: '2'
+        base: /fr/
+        typo3Language: de
+        locale: fr_CH.UTF-8
+        iso-639-1: fr
+        navigationTitle: Francais
+        hreflang: fr-CH
+        direction: ltr
+        flag: fr
+errorHandling: {  }
+routes: {  }

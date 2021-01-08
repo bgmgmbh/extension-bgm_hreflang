@@ -1,0 +1,16 @@
+rootPageId: '{rootPageId}'
+base: https://localhost.de/
+languages:
+    -   title: Deutsch
+        enabled: true
+        languageId: '0'
+        base: /
+        typo3Language: default
+        locale: de_DE.UTF-8
+        iso-639-1: de
+        navigationTitle: Deutsch
+        hreflang: de-DE
+        direction: ltr
+        flag: de
+errorHandling: {  }
+routes: {  }

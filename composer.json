@@ -2,7 +2,8 @@
 	"name": "bgm/bgm-hreflang",
 	"description": "An extension to add hreflang meta tags. Page translations are added automatically as hreflang tags. Editors can configure other pages in the page properties which should be added as hreflang tags.",
 	"type": "typo3-cms-extension",
-	"version": "3.0.2",
+	"license": "GPL-2.0-or-later",
+	"version": "4.0.1-dev",
 	"keywords": [
 		"typo3",
 		"extension"
@@ -17,10 +18,12 @@
 		}
 	],
 	"require": {
-		"typo3/cms-core": ">=8.7.0 <10"
+		"typo3/cms-core": ">=9.5.0 <11",
+		"friendsofphp/php-cs-fixer": "^2.17",
+		"typo3/coding-standards": "^0.2.0"
 	},
 	"require-dev": {
-		"nimut/testing-framework": "^4"
+		"nimut/testing-framework": "^5"
 	},
 	"autoload": {
 		"psr-4": {
@@ -29,12 +32,10 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"BGM\\BgmHreflang\\Tests\\": "Tests",
-			"TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests/"
+			"BGM\\BgmHreflang\\Tests\\": "Tests"
 		}
 	},
 	"replace": {
-		"bgm_hreflang": "self.version",
 		"typo3-ter/bgm-hreflang": "self.version"
 	},
 	"config": {
@@ -43,12 +44,15 @@
 	},
 	"scripts": {
 		"post-autoload-dump": [
-			"mkdir -p .Build/Web/typo3conf/ext/",
-			"[ -L .Build/Web/typo3conf/ext/bgm_hreflang ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/bgm_hreflang"
+			"@prepare-extension-test-structure"
+		],
+		"prepare-extension-test-structure": [
+			"Nimut\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
 		]
 	},
 	"extra": {
 		"typo3/cms": {
+			"extension-key": "bgm_hreflang",
 			"cms-package-dir": "{$vendor-dir}/typo3/cms",
 			"web-dir": ".Build/Web"
 		}
