@@ -6,5 +6,6 @@
 ::
 
    * 2021-01-21 [TASK] Fix dependency version constraint for TER upload
+   * 2021-01-21 [TASK] Release version 4.0.2
 
 There is still one open TODO: Test, what happens when there are nested mountpoints.
