@@ -12,16 +12,5 @@ languages:
         hreflang: en-US
         direction: ltr
         flag: en-us-gb
-    -   title: Italian
-        enabled: true
-        languageId: '1'
-        base: /it/
-        typo3Language: it
-        locale: it_US.UTF-8
-        iso-639-1: it
-        navigationTitle: Italiano
-        hreflang: it-US
-        direction: ltr
-        flag: it
 errorHandling: {  }
 routes: {  }
