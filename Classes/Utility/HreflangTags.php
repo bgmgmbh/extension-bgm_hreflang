@@ -187,7 +187,7 @@ class HreflangTags implements LoggerAwareInterface
                 }
             }
             sort($this->renderedListItems);
-            $this->renderedList = "\n" . implode($this->renderedListItems, "\n") . "\n";
+            $this->renderedList = "\n" . implode("\n", $this->renderedListItems) . "\n";
         }
 
         $this->renderedList = $content . $this->renderedList;
