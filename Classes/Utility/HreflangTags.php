@@ -365,9 +365,6 @@ class HreflangTags implements LoggerAwareInterface
             $tags = array_map(function ($value) {
                 return 'pageId_' . $value;
             }, array_keys($relations));
-            if (!empty($tags)) {
-                $this->getCacheManager()->flushCachesInGroupByTags('pages', $tags);
-            }
             $this->getCacheInstance()->set((string)$cacheIdentifier, $relations, $tags, 84000);
         }
 
