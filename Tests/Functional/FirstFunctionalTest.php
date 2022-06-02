@@ -68,7 +68,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
         $this->setUpFrontendRootPage(
             2, // page id
             [ // array of TypoScript files which should be included
-                $this->fixturePath . 'Frontend/Page.ts'
+                $this->fixturePath . 'Frontend/Page.ts',
             ],
             [
                 'int' => $this->fixturePath . 'Frontend/site-int.yaml',
@@ -77,7 +77,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
         $this->setUpFrontendRootPage(
             8, // page id
             [ // array of TypoScript files which should be included
-                $this->fixturePath . 'Frontend/Page.ts'
+                $this->fixturePath . 'Frontend/Page.ts',
             ],
             [
                 'de' => $this->fixturePath . 'Frontend/site-de.yaml',
@@ -86,10 +86,10 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
         $this->setUpFrontendRootPage(
             14, // page id
             [ // array of TypoScript files which should be included
-                $this->fixturePath . 'Frontend/Page.ts'
+                $this->fixturePath . 'Frontend/Page.ts',
             ],
             [
-                'ch' => $this->fixturePath . 'Frontend/site-ch.yaml'
+                'ch' => $this->fixturePath . 'Frontend/site-ch.yaml',
             ]
         );
     }

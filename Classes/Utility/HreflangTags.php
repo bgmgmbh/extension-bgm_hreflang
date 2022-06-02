@@ -439,12 +439,12 @@ class HreflangTags implements LoggerAwareInterface
         } catch (\Exception $exception) {
             $this->logger->error('Exception while getting rootline for page ' . (int)$pageId, [
                 'Exception ' . $exception->getCode(),
-                $exception->getMessage()
+                $exception->getMessage(),
             ]);
             return $this->hreflangAttributes;
         }
         $rootPageId = $this->getRootPageId($rootline);
-        if($rootPageId === 0){
+        if ($rootPageId === 0) {
             $this->logger->error('Page ' . (int)$pageId . 'has no rootline!');
             return $this->hreflangAttributes;
         }
@@ -585,7 +585,7 @@ class HreflangTags implements LoggerAwareInterface
         $link = $contentObject->typoLink_URL(
             [
                 'parameter' => self::createTypolinkParameterFromArguments($this->relatedPage, $additionalParams),
-                'forceAbsoluteUrl' => true
+                'forceAbsoluteUrl' => true,
             ]
         );
         if ($this->additionalParameters['domainName']) {

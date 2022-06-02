@@ -21,9 +21,8 @@
 		"typo3/cms-core": ">=9.5.0 <11"
 	},
 	"require-dev": {
-		"friendsofphp/php-cs-fixer": "^2.17",
 		"nimut/testing-framework": "^5",
-		"typo3/coding-standards": "^0.2.0"
+		"typo3/coding-standards": "^v0.5.2"
 	},
 	"autoload": {
 		"psr-4": {
