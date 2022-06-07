@@ -34,7 +34,7 @@ bgm hreflang
 		link,alternate,hreflang,tag,meta,seo
 
 	:Copyright:
-		2020
+		2022
 
 	:Author:
 		`bgm websolutions GmbH & Co. KG <http://typo3.bgm-gmbh.de/>`
