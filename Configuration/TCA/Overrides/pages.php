@@ -58,6 +58,7 @@ $tempColumns = [
                     'disabled' => true,
                 ],
             ],
+            'hideSuggest' => true,
         ],
     ],
     'tx_bgmhreflang_list' => [
