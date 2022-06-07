@@ -1,4 +1,4 @@
 #Initialize git
 .Build/
 composer.lock
-.php_cs.cache
+.php-cs-fixer.cache
