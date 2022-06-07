@@ -20,10 +20,6 @@
 	"require": {
 		"typo3/cms-core": ">=9.5.0 <11"
 	},
-	"require-dev": {
-		"nimut/testing-framework": "^5",
-		"typo3/coding-standards": "^v0.5.2"
-	},
 	"autoload": {
 		"psr-4": {
 			"BGM\\BgmHreflang\\": "Classes/"
