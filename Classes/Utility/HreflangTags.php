@@ -349,8 +349,12 @@ class HreflangTags implements LoggerAwareInterface
      */
     public function getCachedRelations($pageId)
     {
+        $relatedPages = [];
+        $this->buildRelations($pageId, $relatedPages);
+        sort($relatedPages);
+
         // get relations from cache
-        $cacheIdentifier = $pageId;
+        $cacheIdentifier = implode('_', $relatedPages);
         $relationFromCache = $this->getCacheInstance()->get($cacheIdentifier);
         //Check, if the current page is already cached
         if (is_array($relationFromCache)) {
@@ -358,13 +362,15 @@ class HreflangTags implements LoggerAwareInterface
         } else {
             // If $relationsFromCache is empty array, it hasn't been cached. Calculate the value and store it in the cache:
             $relations = [];
-            $this->buildRelations($pageId, $relations);
+            foreach($relatedPages as $relatedPage) {
+                $relations[$relatedPage] = $this->buildHreflangAttributes($relatedPage);
+            }
             // prepend each related page (= array_keys($relations)) with "pageId_" and use this as tag. So this cache is
             // cleared, when the corresponding page cache is cleared
             // @see EXT:core/Classes/DataHandling/DataHandler.php::clear_cache()
             $tags = array_map(function ($value) {
                 return 'pageId_' . $value;
-            }, array_keys($relations));
+            }, $relatedPages);
             if (!empty($tags)) {
                 $this->getCacheManager()->flushCachesInGroupByTags('pages', $tags);
             }
@@ -378,45 +384,47 @@ class HreflangTags implements LoggerAwareInterface
      * Get hreflang relations recursivly
      *
      * @param int $pageId
-     * @param array $relations
+     * @param array $relatedPages
      */
-    protected function buildRelations($pageId, &$relations)
+    protected function buildRelations($pageId, &$relatedPages)
     {
-        $relations[$pageId] = $this->buildHreflangAttributes($pageId);
+        if(!isset($relatedPages[$pageId])) {
+            $relatedPages[$pageId] = $pageId;
 
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable('pages');
-        $queryBuilder->getRestrictions()->removeAll()
-            ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
-        $directRelations = $queryBuilder
-            ->select('mm.*')
-            ->from('tx_bgmhreflang_page_page_mm', 'mm')
-            ->leftJoin('mm', 'pages', 'p', 'mm.uid_foreign = p.uid')
-            ->where($queryBuilder->expr()->eq('mm.uid_local', (int)$pageId))
-            ->execute()
-            ->fetchAll();
-        foreach ($directRelations as $directRelation) {
-            if (!isset($relations[$directRelation['uid_foreign']])) {
-                $this->buildRelations($directRelation['uid_foreign'], $relations);
+            /** @var QueryBuilder $queryBuilder */
+            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+                ->getQueryBuilderForTable('pages');
+            $queryBuilder->getRestrictions()->removeAll()
+                ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+            $directRelations = $queryBuilder
+                ->select('mm.*')
+                ->from('tx_bgmhreflang_page_page_mm', 'mm')
+                ->leftJoin('mm', 'pages', 'p', 'mm.uid_foreign = p.uid')
+                ->where($queryBuilder->expr()->eq('mm.uid_local', (int)$pageId))
+                ->execute()
+                ->fetchAll();
+            foreach ($directRelations as $directRelation) {
+                if (!isset($relatedPages[$directRelation['uid_foreign']])) {
+                    $this->buildRelations($directRelation['uid_foreign'], $relatedPages);
+                }
             }
-        }
 
-        /** @var QueryBuilder $queryBuilder2 */
-        $queryBuilder2 = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable('pages');
-        $queryBuilder2->getRestrictions()->removeAll()
-            ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
-        $indirectRelations = $queryBuilder2
-            ->select('mm.*')
-            ->from('tx_bgmhreflang_page_page_mm', 'mm')
-            ->leftJoin('mm', 'pages', 'p', 'mm.uid_local = p.uid')
-            ->where($queryBuilder2->expr()->eq('mm.uid_foreign', (int)$pageId))
-            ->execute()
-            ->fetchAll();
-        foreach ($indirectRelations as $indirectRelation) {
-            if (!isset($relations[$indirectRelation['uid_local']])) {
-                $this->buildRelations($indirectRelation['uid_local'], $relations);
+            /** @var QueryBuilder $queryBuilder2 */
+            $queryBuilder2 = GeneralUtility::makeInstance(ConnectionPool::class)
+                ->getQueryBuilderForTable('pages');
+            $queryBuilder2->getRestrictions()->removeAll()
+                ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+            $indirectRelations = $queryBuilder2
+                ->select('mm.*')
+                ->from('tx_bgmhreflang_page_page_mm', 'mm')
+                ->leftJoin('mm', 'pages', 'p', 'mm.uid_local = p.uid')
+                ->where($queryBuilder2->expr()->eq('mm.uid_foreign', (int)$pageId))
+                ->execute()
+                ->fetchAll();
+            foreach ($indirectRelations as $indirectRelation) {
+                if (!isset($relatedPages[$indirectRelation['uid_local']])) {
+                    $this->buildRelations($indirectRelation['uid_local'], $relatedPages);
+                }
             }
         }
     }
