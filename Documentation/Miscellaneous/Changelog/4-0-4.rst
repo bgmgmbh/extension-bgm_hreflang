@@ -1,0 +1,14 @@
+
+
+4.0.3 - 2022/06/23
+------------------
+
+::
+
+	* 2022-06-21 [BUGFIX] Reuse cache entry on related pages (Thanks to Hannes Lau)
+	* 2022-06-22 [BUGFIX] Fix error in additionalCountries translation handling and simplify code
+	* 2022-06-22 [TASK] Clear cache after changes in the backend (Thanks to Hannes Lau)
+	* 2022-06-22 [TASK] Feature flag to disable cache clearing in frontend (Thanks to Hannes Lau)
+	* 2022-06-22 [TASK] Hint to deactivate EXT:seo hreflang generation (Thanks to Sergio Catalá)
+
+There is still one open TODO: Test, what happens when there are nested mountpoints.
