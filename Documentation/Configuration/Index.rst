@@ -89,6 +89,10 @@ The configuration is done in the AdditionalConfiguration.php or your Theme-Exten
 	//If $_GET['L']==0, pages in this tree are rendered with hreflang="x-default", else only the isolanguagecode is used (without the isocountrycode)
 	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['defaultCountryId'] = 61;
 
+	//Cache is cleared in frontend for all related pages if no cache entry for the current page has been found.
+	//Here you can disable this behaviour, if you are sure the new DataHandler backend hook is enough cache clearing.
+	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['feature']['clearCacheInFrontent'] = true;
+
 And you need some TypoScript:
 
     page.headerData.30 = USER

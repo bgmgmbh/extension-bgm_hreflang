@@ -371,7 +371,7 @@ class HreflangTags implements LoggerAwareInterface
             $tags = array_map(function ($value) {
                 return 'pageId_' . $value;
             }, $relatedPages);
-            if (!empty($tags)) {
+            if (!empty($tags) && $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['feature']['clearCacheInFrontent']) {
                 $this->getCacheManager()->flushCachesInGroupByTags('pages', $tags);
             }
             $this->getCacheInstance()->set((string)$cacheIdentifier, $relations, $tags, 84000);

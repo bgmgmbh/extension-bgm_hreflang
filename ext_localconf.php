@@ -22,6 +22,10 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1603836773] = [
 //Register old and new related pages for cache clearing after changes in the backend
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = \BGM\BgmHreflang\Hooks\DataHandler::class;
 
+//Cache is cleared in frontend for all related pages if no cache entry for the current page has been found.
+//Here you can disable this behaviour, if you are sure the new DataHandler backend hook is enough cache clearing.
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['feature']['clearCacheInFrontent'] = true;
+
 /**
  * DEMO CONFIGURATION
  */
