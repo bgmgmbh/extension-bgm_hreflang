@@ -481,15 +481,13 @@ class HreflangTags implements LoggerAwareInterface
             ->execute()
             ->fetchAll();
         foreach ($translations as $translation) {
-            if ($translation['sys_language_uid']) {
-                $translation = $translation['sys_language_uid'];
-            }
-            if (isset($countryMapping['languageMapping'][$translation])) {
-                $this->hreflangAttributes[$countryMapping['languageMapping'][$translation] . ($rootPageId == $defaultCountryId ? '' : '-' . $countryMapping['countryCode'])] = [
-                    'sysLanguageUid' => $translation,
+            $sysLanguageUid = $translation['sys_language_uid'];
+            if (isset($countryMapping['languageMapping'][$sysLanguageUid])) {
+                $this->hreflangAttributes[$countryMapping['languageMapping'][$sysLanguageUid] . ($rootPageId == $defaultCountryId ? '' : '-' . $countryMapping['countryCode'])] = [
+                    'sysLanguageUid' => $sysLanguageUid,
                     'mountPoint' => $mountPoint,
                     'domainName' => $domainName,
-                    'additionalGetParameters' => $countryMapping['additionalGetParameters'][$translation],
+                    'additionalGetParameters' => $countryMapping['additionalGetParameters'][$sysLanguageUid],
                 ];
             }
         }
@@ -505,12 +503,13 @@ class HreflangTags implements LoggerAwareInterface
                     ];
                 }
                 foreach ($translations as $translation) {
-                    if (isset($countryMapping['languageMapping'][$translation])) {
-                        $this->hreflangAttributes[$countryMapping['languageMapping'][$translation] . '-' . $additionalCountry] = [
-                            'sysLanguageUid' => $translation,
+                    $sysLanguageUid = $translation['sys_language_uid'];
+                    if (isset($countryMapping['languageMapping'][$sysLanguageUid])) {
+                        $this->hreflangAttributes[$countryMapping['languageMapping'][$sysLanguageUid] . '-' . $additionalCountry] = [
+                            'sysLanguageUid' => $sysLanguageUid,
                             'mountPoint' => $mountPoint,
                             'domainName' => $domainName,
-                            'additionalGetParameters' => $countryMapping['additionalGetParameters'][$translation],
+                            'additionalGetParameters' => $countryMapping['additionalGetParameters'][$sysLanguageUid],
                         ];
                     }
                 }
