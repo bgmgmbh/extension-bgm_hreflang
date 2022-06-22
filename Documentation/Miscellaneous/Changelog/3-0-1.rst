@@ -5,15 +5,15 @@
 
 ::
 
-   * 2019-04-01 [TASK] Raise version number
-   * 2019-04-01 [TASK] Test with TYPO3 8 (php7.0-7.2) and TYPO3 9 (php7.2)
-   * 2019-04-01 [TASK] Update nimut/testingframework for php7.2
-   * 2019-04-01 [BUGFIX] Reset current renderedListItem
-   * 2019-04-01 [BUGFIX] Don't create empty list items
-   * 2019-04-01 [BUGFIX] Fix testing for TYPO3 9
-   * 2019-04-01 [BUGFIX] Fix for removed pages_language_overlay (Core change #82445)
-   * 2019-04-01 [BUGFIX] Fix for removed column workspace_preview in be_users (Core change #???)
-   * 2019-04-01 [BUGFIX] Fix for TYPO3 9 TCA changes
-   * 2019-04-01 [BUGFIX] Switch to doctrine for TYPO3 9
+	* 2019-04-01 [TASK] Raise version number
+	* 2019-04-01 [TASK] Test with TYPO3 8 (php7.0-7.2) and TYPO3 9 (php7.2)
+	* 2019-04-01 [TASK] Update nimut/testingframework for php7.2
+	* 2019-04-01 [BUGFIX] Reset current renderedListItem
+	* 2019-04-01 [BUGFIX] Don't create empty list items
+	* 2019-04-01 [BUGFIX] Fix testing for TYPO3 9
+	* 2019-04-01 [BUGFIX] Fix for removed pages_language_overlay (Core change #82445)
+	* 2019-04-01 [BUGFIX] Fix for removed column workspace_preview in be_users (Core change #???)
+	* 2019-04-01 [BUGFIX] Fix for TYPO3 9 TCA changes
+	* 2019-04-01 [BUGFIX] Switch to doctrine for TYPO3 9
 
 There is still one open TODO: Test, what happens when there are nested mountpoints.

@@ -5,9 +5,9 @@
 
 ::
 
-   * 2017-02-06 Fix composer.json for TYPO3 6.2
+	* 2017-02-06 Fix composer.json for TYPO3 6.2
 	* 2017-02-06 Change minimal TYPO3 version to 6.2
-   * 2017-02-06 Update version and changelog; Deploy to TER
-   * 2017-02-06 Really change version number; Deploy to TER
+	* 2017-02-06 Update version and changelog; Deploy to TER
+	* 2017-02-06 Really change version number; Deploy to TER
 
 There is still one open TODO: Test, what happens when there are nested mountpoints.

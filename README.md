@@ -10,9 +10,7 @@ Editors can configure other pages in the page properties which should be added a
 
 TER           https://typo3.org/extensions/repository/view/bgm_hreflang/
 
-Forge         https://forge.typo3.org/projects/extension-bgm_hreflang/
-
-Documentation https://docs.typo3.org/typo3cms/extensions/bgm_hreflang/
+Documentation https://docs.typo3.org/p/bgm/bgm-hreflang/main/en-us/Index.html
 
 GitHub        https://github.com/bgmgmbh/extension-bgm_hreflang
 

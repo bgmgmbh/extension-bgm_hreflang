@@ -5,8 +5,8 @@
 
 ::
 
-   * 2018-01-15 [TASK] Introduce Functional Tests
-   * 2018-01-15 [BUGFIX] Reset $this->getParameter for each link
-   * 2018-01-15 [TASK] Deploy to TER
+	* 2018-01-15 [TASK] Introduce Functional Tests
+	* 2018-01-15 [BUGFIX] Reset $this->getParameter for each link
+	* 2018-01-15 [TASK] Deploy to TER
 
 There is still one open TODO: Test, what happens when there are nested mountpoints.

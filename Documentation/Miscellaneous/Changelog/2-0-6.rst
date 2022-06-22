@@ -5,13 +5,13 @@
 
 ::
 
-   * 2017-10-24 [BUGFIX] Check if domainName has a scheme
-   * 2017-10-30 [TASK] Check if configuration for page language exists
-   * 2017-11-07 [BUGFIX] Unset more mountpoint stuff before generating URLs
-   * 2017-11-28 [TASK] Show domainName in BE
-   * 2017-11-28 [TASK] Use Hook in RealUrl to set host depending on domainName
-   * 2017-11-28 [TASK] New option additionalGetParameters per country per lanugage
-   * 2017-11-29 [TASK] Activate TCA show_thumbs
-   * 2018-01-12 [TASK] Deploy to TER - Last Version for TYPO3 6.2 and 7.6!
+	* 2017-10-24 [BUGFIX] Check if domainName has a scheme
+	* 2017-10-30 [TASK] Check if configuration for page language exists
+	* 2017-11-07 [BUGFIX] Unset more mountpoint stuff before generating URLs
+	* 2017-11-28 [TASK] Show domainName in BE
+	* 2017-11-28 [TASK] Use Hook in RealUrl to set host depending on domainName
+	* 2017-11-28 [TASK] New option additionalGetParameters per country per lanugage
+	* 2017-11-29 [TASK] Activate TCA show_thumbs
+	* 2018-01-12 [TASK] Deploy to TER - Last Version for TYPO3 6.2 and 7.6!
 
 There is still one open TODO: Test, what happens when there are nested mountpoints.

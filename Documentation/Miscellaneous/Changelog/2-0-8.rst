@@ -5,9 +5,9 @@
 
 ::
 
-   * 2018-01-15 [TASK] Raise version number
-   * 2018-01-15 [TASK] No need to test TYPO3 8.7 in 7.6 branch
-   * 2018-03-11 [TASK] Remove composer.lock
-   * 2018-03-01 [TASK] Fix GitLab CI cache key
+	* 2018-01-15 [TASK] Raise version number
+	* 2018-01-15 [TASK] No need to test TYPO3 8.7 in 7.6 branch
+	* 2018-03-11 [TASK] Remove composer.lock
+	* 2018-03-01 [TASK] Fix GitLab CI cache key
 
 There is still one open TODO: Test, what happens when there are nested mountpoints.

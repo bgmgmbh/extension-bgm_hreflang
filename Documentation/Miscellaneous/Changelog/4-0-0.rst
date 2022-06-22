@@ -5,31 +5,31 @@
 
 ::
 
-   * 2020-10-27 [TASK] Set dev version number
-   * 2020-10-27 [TASK] Hardcoded composer 1.10 because replace.bgm_hreflang would break
-   * 2020-10-27 [TASK] Allow TYPO3 v10
-   * 2020-10-27 [TASK] Update nimut/testing-framework for v10
-   * 2020-10-27 [TASK] Drop support for outdated TYPO3 versions
-   * 2021-01-04 [TASK] Ignore composer.lock file created during running tests
-   * 2021-01-04 [TASK] Add .ddev for development and running tests
-   * 2021-01-04 [TASK] Remove to enable composer 2
-   * 2021-01-04 [TASK] Cleanup before and after functional tests
-   * 2021-01-04 [TASK] Update composer.json for updated testing framework
-   * 2021-01-04 [TASK] Update tests for TYPO3 9 site configs and core routing features
-   * 2021-01-04 [BUGFIX] Use protocol from site config if it's not set through config 'domainName'
-   * 2021-01-04 [TASK] Reuse functional test fixtures for manual testing
-   * 2021-01-04 [TASK] Register custom TCA node renderType instead of userFunc
-   * 2021-01-04 [TASK] Hide fields on page translations
-   * 2021-01-04 [BUGFIX] TCA type none needs no database field
-   * 2021-01-04 [TASK] Test related pages, too
-   * 2021-01-04 [BUGFIX] FollowUp bc14e5d55: We need L=0 to get URLs from translations to related default language
-   * 2021-01-05 [TASK] Fix BreakingChange in v10: Remove sysPage and use RootlineUtility
-   * 2021-01-05 [TASK] Don't use $GLOBALS['TSFE'] for uri building so we don't need to manipulate it
-   * 2021-01-05 [TASK] Fix BreakingChange in v10: CachingFramework flush by tag
-   * 2021-01-05 [TASK] Code style with php-cs
-   * 2021-01-05 [TASK] Manual code style fixes
-   * 2021-01-05 [TASK] Update changelog
-   * 2021-01-06 [TASK] Update documentation
-   * 2021-01-06 [TASK] Release version 4.0.0
+	* 2020-10-27 [TASK] Set dev version number
+	* 2020-10-27 [TASK] Hardcoded composer 1.10 because replace.bgm_hreflang would break
+	* 2020-10-27 [TASK] Allow TYPO3 v10
+	* 2020-10-27 [TASK] Update nimut/testing-framework for v10
+	* 2020-10-27 [TASK] Drop support for outdated TYPO3 versions
+	* 2021-01-04 [TASK] Ignore composer.lock file created during running tests
+	* 2021-01-04 [TASK] Add .ddev for development and running tests
+	* 2021-01-04 [TASK] Remove to enable composer 2
+	* 2021-01-04 [TASK] Cleanup before and after functional tests
+	* 2021-01-04 [TASK] Update composer.json for updated testing framework
+	* 2021-01-04 [TASK] Update tests for TYPO3 9 site configs and core routing features
+	* 2021-01-04 [BUGFIX] Use protocol from site config if it's not set through config 'domainName'
+	* 2021-01-04 [TASK] Reuse functional test fixtures for manual testing
+	* 2021-01-04 [TASK] Register custom TCA node renderType instead of userFunc
+	* 2021-01-04 [TASK] Hide fields on page translations
+	* 2021-01-04 [BUGFIX] TCA type none needs no database field
+	* 2021-01-04 [TASK] Test related pages, too
+	* 2021-01-04 [BUGFIX] FollowUp bc14e5d55: We need L=0 to get URLs from translations to related default language
+	* 2021-01-05 [TASK] Fix BreakingChange in v10: Remove sysPage and use RootlineUtility
+	* 2021-01-05 [TASK] Don't use $GLOBALS['TSFE'] for uri building so we don't need to manipulate it
+	* 2021-01-05 [TASK] Fix BreakingChange in v10: CachingFramework flush by tag
+	* 2021-01-05 [TASK] Code style with php-cs
+	* 2021-01-05 [TASK] Manual code style fixes
+	* 2021-01-05 [TASK] Update changelog
+	* 2021-01-06 [TASK] Update documentation
+	* 2021-01-06 [TASK] Release version 4.0.0
 
 There is still one open TODO: Test, what happens when there are nested mountpoints.

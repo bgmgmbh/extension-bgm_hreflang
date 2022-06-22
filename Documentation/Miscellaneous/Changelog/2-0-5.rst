@@ -5,11 +5,11 @@
 
 ::
 
-   * 2017-09-13 [BUGFIX] Fix hreflang tags to default language
-   * 2017-10-23 [TASK] Remove unnecessary code from composer.json
-   * 2017-10-23 [TASK] Set dependency in composer.json
-   * 2017-10-23 [TASK] Set version number to 2.0.5
-   * 2017-10-23 [TASK] New configuration "domainName"
-   * 2017-10-23 [TASK] Deploy to TER
+	* 2017-09-13 [BUGFIX] Fix hreflang tags to default language
+	* 2017-10-23 [TASK] Remove unnecessary code from composer.json
+	* 2017-10-23 [TASK] Set dependency in composer.json
+	* 2017-10-23 [TASK] Set version number to 2.0.5
+	* 2017-10-23 [TASK] New configuration "domainName"
+	* 2017-10-23 [TASK] Deploy to TER
 
 There is still one open TODO: Test, what happens when there are nested mountpoints.

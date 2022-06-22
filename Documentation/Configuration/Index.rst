@@ -95,7 +95,9 @@ The configuration is done in the AdditionalConfiguration.php or your Theme-Exten
 
 And you need some TypoScript:
 
-    page.headerData.30 = USER
-    page.headerData.30 {
-        userFunc = BGM\BgmHreflang\Utility\HreflangTags->renderFrontendList
-    }
+.. code:: none
+
+	page.headerData.30 = USER
+	page.headerData.30 {
+		userFunc = BGM\BgmHreflang\Utility\HreflangTags->renderFrontendList
+	}
