@@ -19,6 +19,9 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1603836773] = [
     'class' => \BGM\BgmHreflang\Form\Element\HreflangTagsElement::class,
 ];
 
+//Register old and new related pages for cache clearing after changes in the backend
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] = \BGM\BgmHreflang\Hooks\DataHandler::class;
+
 /**
  * DEMO CONFIGURATION
  */
