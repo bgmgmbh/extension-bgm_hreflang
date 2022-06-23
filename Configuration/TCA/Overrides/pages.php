@@ -76,4 +76,4 @@ $tempColumns = [
 $GLOBALS['TCA']['pages']['palettes']['tx_bgmhreflang']['canNotCollapse'] = 1;
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('pages', '--palette--;LLL:EXT:bgm_hreflang/Resources/Private/Language/Backend.xlf:pages.palette.tx_bgmhreflang;tx_bgmhreflang;;', '', 'after:lastUpdated');
 
-$GLOBALS['TCA']['pages']['ctrl']['setToDefaultOnCopy'] = ($GLOBALS['TCA']['pages']['ctrl']['setToDefaultOnCopy'] ? $GLOBALS['TCA']['pages']['ctrl']['setToDefaultOnCopy'] . ',' : '') . 'tx_bgmhreflang_1,tx_bgmhreflang_2';
+$GLOBALS['TCA']['pages']['ctrl']['setToDefaultOnCopy'] = ((isset($GLOBALS['TCA']['pages']['ctrl']['setToDefaultOnCopy']) && $GLOBALS['TCA']['pages']['ctrl']['setToDefaultOnCopy']) ?? $GLOBALS['TCA']['pages']['ctrl']['setToDefaultOnCopy'] . ',') . 'tx_bgmhreflang_1,tx_bgmhreflang_2';
