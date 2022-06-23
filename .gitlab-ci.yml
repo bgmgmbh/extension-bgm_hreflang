@@ -30,7 +30,7 @@ variables:
     - php -r "if (hash_file('SHA384', 'composer-setup.php') === file_get_contents('installer.sig')) { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
     - php composer-setup.php --no-ansi --install-dir=/usr/bin --filename=composer
     - php -r "unlink('composer-setup.php'); unlink('installer.sig');"
-    - composer require typo3/minimal="${TYPO3_VERSION}" nimut/testing-framework="^5"
+    - composer require typo3/minimal="${TYPO3_VERSION}" nimut/testing-framework="^6"
   script:
     - find 'Tests/Functional' -wholename '*Test.php' | parallel --gnu 'echo; echo "Running functional test suite {}"; .Build/bin/phpunit --colors  -c .Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml {}'
   tags:
@@ -53,3 +53,15 @@ typo3_10lts php_7-4:
   image: php:7.4-alpine
   variables:
     TYPO3_VERSION: ^10
+
+typo3_11lts php_7-4:
+  <<: *test_php
+  image: php:7.4-alpine
+  variables:
+    TYPO3_VERSION: ^11
+
+typo3_11lts php_8-0:
+  <<: *test_php
+  image: php:8.0-alpine
+  variables:
+    TYPO3_VERSION: ^11

@@ -4,6 +4,7 @@ namespace BGM\BgmHreflang\Tests\Functional;
 
 use Nimut\TestingFramework\Http\Response;
 use PHPUnit\Util\PHP\DefaultPhpProcess;
+use SebastianBergmann\Template\Template;
 
 /**
  * Class FirstFunctionalTest
@@ -52,7 +53,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
 
     protected $fixturePath;
 
-    protected function setUp()
+    protected function setUp() :void
     {
         parent::setUp();
 
@@ -391,7 +392,8 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
             'requestUrl' => 'http://localhost/?id=' . $pageId . '&L=' . $languageId . $additionalParameter,
         ];
 
-        $template = new \Text_Template('ntf://Frontend/Request.tpl');
+        $textTemplateClass = class_exists(Template::class) ? Template::class : \Text_Template::class;
+        $template = new $textTemplateClass('ntf://Frontend/Request.tpl');
         $template->setVar(
             [
                 'arguments' => var_export($arguments, true),
@@ -405,11 +407,11 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
         $result = json_decode($response['stdout'], true);
 
         if ($result === null) {
-            self::fail('Frontend Response is empty.' . LF . 'Error: ' . LF . $response['stderr']);
+            $this->fail('Frontend Response is empty.' . LF . 'Error: ' . LF . $response['stderr']);
         }
 
         if ($failOnFailure && $result['status'] === Response::STATUS_Failure) {
-            self::fail('Frontend Response has failure:' . LF . $result['error']);
+            $this->fail('Frontend Response has failure:' . LF . $result['error']);
         }
 
         $response = new Response($result['status'], $result['content'], $result['error']);
