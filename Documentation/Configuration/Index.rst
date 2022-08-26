@@ -95,7 +95,7 @@ The configuration is done in the AdditionalConfiguration.php or your Theme-Exten
 
 And you need some TypoScript:
 
-.. code:: none
+.. code:: typoscript
 
 	page.headerData.30 = USER
 	page.headerData.30 {

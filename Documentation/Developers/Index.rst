@@ -25,7 +25,7 @@ import them:
 
 Use this TypoScript setup on the root page:
 
-.. code:: none
+.. code:: typoscript
 
 	page = PAGE
 	page.10 = USER
