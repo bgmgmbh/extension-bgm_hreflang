@@ -408,7 +408,7 @@ class HreflangTags implements LoggerAwareInterface
             return $this->hreflangAttributes;
         }
 
-        $countryMapping = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['countryMapping'][(int)$rootPageId];
+        $countryMapping = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['countryMapping'][(int)$rootPageId] ?? [];
         $defaultCountryId = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['defaultCountryId'];
         $domainName = (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['countryMapping'][(int)$rootPageId]['domainName']))?
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['countryMapping'][(int)$rootPageId]['domainName'] :'';
@@ -418,7 +418,7 @@ class HreflangTags implements LoggerAwareInterface
                 'sysLanguageUid' => 0,
                 'mountPoint' => $mountPoint,
                 'domainName' => $domainName,
-                'additionalGetParameters' => $countryMapping['additionalGetParameters'][0],
+                'additionalGetParameters' => $countryMapping['additionalGetParameters'][0] ?? '',
             ];
         }
 
@@ -438,19 +438,19 @@ class HreflangTags implements LoggerAwareInterface
                     'sysLanguageUid' => $sysLanguageUid,
                     'mountPoint' => $mountPoint,
                     'domainName' => $domainName,
-                    'additionalGetParameters' => $countryMapping['additionalGetParameters'][$sysLanguageUid],
+                    'additionalGetParameters' => $countryMapping['additionalGetParameters'][$sysLanguageUid] ?? '',
                 ];
             }
         }
 
-        if ($countryMapping['additionalCountries']) {
+        if (isset($countryMapping['additionalCountries'])) {
             foreach ($countryMapping['additionalCountries'] as $additionalCountry) {
                 if (isset($countryMapping['languageMapping'][0])) {
                     $this->hreflangAttributes[$countryMapping['languageMapping'][0] . '-' . $additionalCountry] = [
                         'sysLanguageUid' => 0,
                         'mountPoint' => $mountPoint,
                         'domainName' => $domainName,
-                        'additionalGetParameters' => $countryMapping['additionalGetParameters'][0],
+                        'additionalGetParameters' => $countryMapping['additionalGetParameters'][0] ?? '',
                     ];
                 }
                 foreach ($translations as $translation) {
@@ -460,7 +460,7 @@ class HreflangTags implements LoggerAwareInterface
                             'sysLanguageUid' => $sysLanguageUid,
                             'mountPoint' => $mountPoint,
                             'domainName' => $domainName,
-                            'additionalGetParameters' => $countryMapping['additionalGetParameters'][$sysLanguageUid],
+                            'additionalGetParameters' => $countryMapping['additionalGetParameters'][$sysLanguageUid] ?? '',
                         ];
                     }
                 }
