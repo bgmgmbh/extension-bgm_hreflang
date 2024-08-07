@@ -8,7 +8,7 @@ class HreflangTags
     /**
      * t3lib_page object for finding rootline on the fly
      *
-     * @var \TYPO3\CMS\Frontend\Page\PageRepository
+     * @var \TYPO3\CMS\Core\Domain\Repository\PageRepository
      */
     protected $sysPage;
 
@@ -20,7 +20,7 @@ class HreflangTags
     /**
      * @param \BGM\BgmHreflang\Utility\HreflangTags $parentObject
      */
-    public function getGetParametersForProducts($parentObject)
+    public function getGetParametersForProducts($parentObject): void
     {
         $getParameters = $parentObject->getGetParameters();
         if (isset($getParameters['Product'])) {
@@ -88,7 +88,7 @@ class HreflangTags
      */
     protected function getRootPageId($pageId)
     {
-        if (TYPO3_MODE == 'BE') {
+        if (\TYPO3\CMS\Core\Http\ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()) {
             $rootline = \TYPO3\CMS\Backend\Utility\BackendUtility::BEgetRootLine($pageId);
         } else {
             $this->createSysPageIfNecessary();
@@ -110,7 +110,7 @@ class HreflangTags
     protected function createSysPageIfNecessary()
     {
         if (!is_object($this->sysPage)) {
-            $this->sysPage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\Page\\PageRepository');
+            $this->sysPage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Domain\Repository\PageRepository::class);
             $this->sysPage->init($GLOBALS['TSFE']->showHiddenPage || $GLOBALS['TSFE']->beUserLogin);
         }
     }

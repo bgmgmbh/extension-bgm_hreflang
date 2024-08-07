@@ -155,7 +155,7 @@ class HreflangTags implements LoggerAwareInterface
         $this->renderedList = '';
         $this->renderedListItems = [];
         if ((int)($GLOBALS['TSFE']->id) > 0) {
-            $this->getParameters = GeneralUtility::_GET();
+            $this->getParameters = $GLOBALS['TYPO3_REQUEST']->getQueryParams();
 
             $relations = $this->getCachedRelations($GLOBALS['TSFE']->id);
 
@@ -163,7 +163,7 @@ class HreflangTags implements LoggerAwareInterface
                 foreach ($info as $this->hreflangAttribute => $this->additionalParameters) {
                     $this->renderedListItem = '';
                     $this->validRelation = true;
-                    $this->getParameters = GeneralUtility::_GET();
+                    $this->getParameters = $GLOBALS['TYPO3_REQUEST']->getQueryParams();
                     unset($this->getParameters['id']);
                     $this->getParameters['L'] = (int)($this->additionalParameters['sysLanguageUid']);
                     unset($this->getParameters['MP']);
@@ -200,7 +200,7 @@ class HreflangTags implements LoggerAwareInterface
     /**
      * @param array $getParameters
      */
-    public function setGetParameters($getParameters)
+    public function setGetParameters($getParameters): void
     {
         $this->getParameters = $getParameters;
     }
@@ -216,7 +216,7 @@ class HreflangTags implements LoggerAwareInterface
     /**
      * @param int $relatedPage
      */
-    public function setRelatedPage($relatedPage)
+    public function setRelatedPage($relatedPage): void
     {
         $this->relatedPage = $relatedPage;
     }
@@ -232,7 +232,7 @@ class HreflangTags implements LoggerAwareInterface
     /**
      * @param string $hreflangAttribute
      */
-    public function setHreflangAttribute($hreflangAttribute)
+    public function setHreflangAttribute($hreflangAttribute): void
     {
         $this->hreflangAttribute = $hreflangAttribute;
     }
@@ -248,7 +248,7 @@ class HreflangTags implements LoggerAwareInterface
     /**
      * @param array $hreflangAttributes
      */
-    public function setHreflangAttributes($hreflangAttributes)
+    public function setHreflangAttributes($hreflangAttributes): void
     {
         $this->hreflangAttributes = $hreflangAttributes;
     }
@@ -264,7 +264,7 @@ class HreflangTags implements LoggerAwareInterface
     /**
      * @param array $additionalParameters
      */
-    public function setAdditionalParameters($additionalParameters)
+    public function setAdditionalParameters($additionalParameters): void
     {
         $this->additionalParameters = $additionalParameters;
     }
@@ -280,7 +280,7 @@ class HreflangTags implements LoggerAwareInterface
     /**
      * @param string $renderedListItem
      */
-    public function setRenderedListItem($renderedListItem)
+    public function setRenderedListItem($renderedListItem): void
     {
         $this->renderedListItem = $renderedListItem;
     }
@@ -296,7 +296,7 @@ class HreflangTags implements LoggerAwareInterface
     /**
      * @param array $renderedListItems
      */
-    public function setRenderedListItems($renderedListItems)
+    public function setRenderedListItems($renderedListItems): void
     {
         $this->renderedListItems = $renderedListItems;
     }
@@ -312,7 +312,7 @@ class HreflangTags implements LoggerAwareInterface
     /**
      * @param string $renderedList
      */
-    public function setRenderedList($renderedList)
+    public function setRenderedList($renderedList): void
     {
         $this->renderedList = $renderedList;
     }
@@ -336,7 +336,7 @@ class HreflangTags implements LoggerAwareInterface
     /**
      * @param bool $validRelation
      */
-    public function setValidRelation($validRelation)
+    public function setValidRelation($validRelation): void
     {
         $this->validRelation = $validRelation;
     }
@@ -427,10 +427,7 @@ class HreflangTags implements LoggerAwareInterface
         $translations = $queryBuilder
             ->select('sys_language_uid')
             ->from('pages')
-            ->where($queryBuilder->expr()->eq('l10n_parent', (int)$pageId))
-            ->andWhere($queryBuilder->expr()->gt('sys_language_uid', 0))
-            ->execute()
-            ->fetchAll();
+            ->where($queryBuilder->expr()->eq('l10n_parent', (int)$pageId))->andWhere($queryBuilder->expr()->gt('sys_language_uid', 0))->executeQuery()->fetchAllAssociative();
         foreach ($translations as $translation) {
             $sysLanguageUid = $translation['sys_language_uid'];
             if (isset($countryMapping['languageMapping'][$sysLanguageUid])) {
@@ -501,10 +498,7 @@ class HreflangTags implements LoggerAwareInterface
         $mountPoints = $queryBuilder
             ->selectLiteral('CONCAT(mount_pid, "-", uid) AS mountPoint')
             ->from('pages')
-            ->where($queryBuilder->expr()->eq('doktype', 7))
-            ->andWhere($queryBuilder->expr()->in('mount_pid', $rootlineIds))
-            ->execute()
-            ->fetchAll();
+            ->where($queryBuilder->expr()->eq('doktype', 7))->andWhere($queryBuilder->expr()->in('mount_pid', $rootlineIds))->executeQuery()->fetchAllAssociative();
 
         return $mountPoints;
     }
@@ -569,7 +563,7 @@ class HreflangTags implements LoggerAwareInterface
      */
     protected static function createTypolinkParameterFromArguments($parameter, $additionalParameters = '')
     {
-        $typoLinkCodec = GeneralUtility::makeInstance(TypoLinkCodecService::class);
+        $typoLinkCodec = GeneralUtility::makeInstance(\TYPO3\CMS\Core\LinkHandling\TypoLinkCodecService::class);
         $typolinkConfiguration = $typoLinkCodec->decode($parameter);
         if ($additionalParameters) {
             $typolinkConfiguration['additionalParams'] .= $additionalParameters;

@@ -1,6 +1,6 @@
 <?php
 
-if (!defined('TYPO3_MODE')) {
+if (!defined('TYPO3')) {
     die('Access denied.');
 }
 
@@ -11,7 +11,6 @@ $tempColumns = [
         'label' => 'LLL:EXT:bgm_hreflang/Resources/Private/Language/Backend.xlf:pages.tx_bgmhreflang_1',
         'config' => [
             'type' => 'group',
-            'internal_type' => 'db',
             'allowed' => 'pages',
             'foreign_table' => 'pages',
             'MM' => 'tx_bgmhreflang_page_page_mm',
@@ -38,7 +37,6 @@ $tempColumns = [
         'label' => 'LLL:EXT:bgm_hreflang/Resources/Private/Language/Backend.xlf:pages.tx_bgmhreflang_2',
         'config' => [
             'type' => 'group',
-            'internal_type' => 'db',
             'allowed' => 'pages',
             'foreign_table' => 'pages',
             'MM' => 'tx_bgmhreflang_page_page_mm',

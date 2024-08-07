@@ -100,7 +100,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      *
      * @test
      */
-    public function international1PageOutput()
+    public function international1PageOutput(): void
     {
         $response = $this->getFrontendResponse(3);
         self::assertEquals(
@@ -121,7 +121,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      *
      * @test
      */
-    public function deutschland1PageOutput()
+    public function deutschland1PageOutput(): void
     {
         self::assertEquals(
             trim($this->getFrontendResponse(3)->getContent()),
@@ -134,7 +134,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      *
      * @test
      */
-    public function schweiz1PageOutput()
+    public function schweiz1PageOutput(): void
     {
         self::assertEquals(
             trim($this->getFrontendResponse(3)->getContent()),
@@ -147,7 +147,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      *
      * @test
      */
-    public function schweiz1ItPageOutput()
+    public function schweiz1ItPageOutput(): void
     {
         self::assertEquals(
             trim($this->getFrontendResponse(3)->getContent()),
@@ -160,7 +160,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      *
      * @test
      */
-    public function schweiz1FrPageOutput()
+    public function schweiz1FrPageOutput(): void
     {
         self::assertEquals(
             trim($this->getFrontendResponse(3)->getContent()),
@@ -173,7 +173,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      *
      * @test
      */
-    public function international2PageOutput()
+    public function international2PageOutput(): void
     {
         $response = $this->getFrontendResponse(4);
         self::assertEquals(
@@ -192,7 +192,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      *
      * @test
      */
-    public function deutschland2PageOutput()
+    public function deutschland2PageOutput(): void
     {
         self::assertEquals(
             trim($this->getFrontendResponse(4)->getContent()),
@@ -205,7 +205,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      *
      * @test
      */
-    public function schweiz2PageOutput()
+    public function schweiz2PageOutput(): void
     {
         self::assertEquals(
             trim($this->getFrontendResponse(4)->getContent()),
@@ -218,7 +218,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      *
      * @test
      */
-    public function international3PageOutput()
+    public function international3PageOutput(): void
     {
         $response = $this->getFrontendResponse(6);
         self::assertEquals(
@@ -238,7 +238,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      *
      * @test
      */
-    public function deutsch3PageOutput()
+    public function deutsch3PageOutput(): void
     {
         self::assertEquals(
             trim($this->getFrontendResponse(6)->getContent()),
@@ -251,7 +251,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      *
      * @test
      */
-    public function schweiz3PageOutput()
+    public function schweiz3PageOutput(): void
     {
         self::assertEquals(
             trim($this->getFrontendResponse(6)->getContent()),
@@ -264,7 +264,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      *
      * @test
      */
-    public function schweiz3ItPageOutput()
+    public function schweiz3ItPageOutput(): void
     {
         self::assertEquals(
             trim($this->getFrontendResponse(6)->getContent()),
@@ -277,7 +277,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      *
      * @test
      */
-    public function international4PageOutput()
+    public function international4PageOutput(): void
     {
         $response = $this->getFrontendResponse(7);
         self::assertEquals(
@@ -293,7 +293,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      *
      * @test
      */
-    public function deutschland4PageOutput()
+    public function deutschland4PageOutput(): void
     {
         $response = $this->getFrontendResponse(13);
         self::assertEquals(
@@ -310,7 +310,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      *
      * @test
      */
-    public function schweiz4PageOutput()
+    public function schweiz4PageOutput(): void
     {
         $response = $this->getFrontendResponse(18);
         self::assertEquals(
@@ -327,7 +327,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      *
      * @test
      */
-    public function international5PageOutput()
+    public function international5PageOutput(): void
     {
         $response = $this->getFrontendResponse(24);
         self::assertEquals(
@@ -343,7 +343,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      *
      * @test
      */
-    public function international6PageOutput()
+    public function international6PageOutput(): void
     {
         $response = $this->getFrontendResponse(26);
         self::assertEquals(

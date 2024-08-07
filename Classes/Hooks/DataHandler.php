@@ -16,7 +16,7 @@ class DataHandler
      * @param $id
      * @param \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler
      */
-    public function processDatamap_preProcessFieldArray($incomingFieldArray, $table, $id, \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler) {
+    public function processDatamap_preProcessFieldArray($incomingFieldArray, $table, $id, \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler): void {
         if($table === 'pages' && MathUtility::canBeInterpretedAsInteger($id)) {
             $relatedPages = [];
             RelatedPages::buildRelations($id, $relatedPages);
@@ -35,7 +35,7 @@ class DataHandler
      * @param $fieldArray
      * @param \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler
      */
-    public function processDatamap_afterDatabaseOperations($status, $table, $id, $fieldArray, \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler) {
+    public function processDatamap_afterDatabaseOperations($status, $table, $id, $fieldArray, \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler): void {
         if($table === 'pages') {
             if(!MathUtility::canBeInterpretedAsInteger($id)){
                 $id = $dataHandler->substNEWwithIDs[$id];
