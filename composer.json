@@ -3,7 +3,7 @@
 	"description": "An extension to add hreflang meta tags. Page translations are added automatically as hreflang tags. Editors can configure other pages in the page properties which should be added as hreflang tags.",
 	"type": "typo3-cms-extension",
 	"license": "GPL-2.0-or-later",
-	"version": "4.0.5",
+	"version": "12.4.0",
 	"keywords": [
 		"typo3",
 		"extension"
@@ -18,7 +18,7 @@
 		}
 	],
 	"require": {
-		"typo3/cms-core": ">=9.5.0 <10 || >=10.4.30 <11 || >=11.5.12 <12"
+		"typo3/cms-core": "12.4.*"
 	},
 	"autoload": {
 		"psr-4": {

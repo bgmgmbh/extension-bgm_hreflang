@@ -2,6 +2,15 @@
 
 namespace BGM\BgmHreflang\Utility;
 
+use BGM\BgmHreflang\Event\BackendAfterRenderEvent;
+use BGM\BgmHreflang\Event\BackendAfterRenderSingleHreflangAttributeEvent;
+use BGM\BgmHreflang\Event\BackendAfterRenderSinglePageEvent;
+use BGM\BgmHreflang\Event\BackendBeforeRenderSingleHreflangAttributeEvent;
+use BGM\BgmHreflang\Event\BackendBeforeRenderSinglePageEvent;
+use BGM\BgmHreflang\Event\BuildHreflangAttributesEvent;
+use BGM\BgmHreflang\Event\FrontendAfterRenderEvent;
+use BGM\BgmHreflang\Event\FrontendAfterRenderSingleTagEvent;
+use BGM\BgmHreflang\Event\FrontendBeforeRenderSingleTagEvent;
 use BGM\BgmHreflang\Service\RelatedPages;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -10,97 +19,87 @@ use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
+use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Service\TypoLinkCodecService;
+use ZARGES\ZargesProducts\Event\AfterImportPreparedDataEvent;
 
 class HreflangTags implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher
-     */
-    protected $signalSlotDispatcher;
+    protected EventDispatcher $eventDispatcher;
 
     /**
      * current $_GET parameters
      *
-     * @var array
      * @see renderBackendList(), renderFrontendList()
      */
-    protected $getParameters;
+    protected array $getParameters;
 
     /**
      * current related page
      *
-     * @var int
      * @see renderBackendList(), renderFrontendList()
      */
-    protected $relatedPage;
+    protected int $relatedPage;
 
     /**
      * current hreflang attribute for the related page
      *
-     * @var string
      * @see renderBackendList(), renderFrontendList()
      */
-    protected $hreflangAttribute;
+    protected string $hreflangAttribute;
 
     /**
      * curent hreflang attributes for the related page
      *
-     * @var array
      * @see renderBackendList(), renderFrontendList()
      */
-    protected $hreflangAttributes;
+    protected array $hreflangAttributes;
 
     /**
      * additional parameters for the current hreflang attribute $hreflangAttribute.
      * contains the keys sysLanguageUid and mountPoint
      *
-     * @var array
      * @see renderBackendList(), renderFrontendList()
      */
-    protected $additionalParameters;
+    protected array $additionalParameters;
 
     /**
      * rendered item
      *
-     * @var string
      * @see renderBackendList(), renderFrontendList()
      */
-    protected $renderedListItem;
+    protected string $renderedListItem;
 
     /**
      * rendered items
      *
-     * @var array
      * @see renderBackendList(), renderFrontendList()
      */
-    protected $renderedListItems;
+    protected array $renderedListItems;
 
     /**
      * rendered list
      *
-     * @var string
      * @see renderBackendList(), renderFrontendList()
      */
-    protected $renderedList;
+    protected string $renderedList;
 
     /**
      * valid relation
      *
-     * @var bool
      * @see renderBackendList(), renderFrontendList()
      */
-    protected $validRelation;
+    protected bool $validRelation;
 
     public function __construct()
     {
-        $this->signalSlotDispatcher = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\SignalSlot\\Dispatcher');
+        $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcher::class);
     }
 
     /**
@@ -116,31 +115,38 @@ class HreflangTags implements LoggerAwareInterface
             $relations = $this->getCachedRelations((int)$uid);
 
             foreach ($relations as $this->relatedPage => $info) {
-                $this->signalSlotDispatcher->dispatch(__CLASS__, 'backend_beforeRenderSinglePage', [$this]);
+                $this->dispatch(new BackendBeforeRenderSinglePageEvent($this));
+
                 $this->renderedListItem = '<li>' . BackendUtility::getRecordPath($this->relatedPage, '', 1000) . ' [' . $this->relatedPage . ']';
                 $this->hreflangAttributes = [];
                 foreach ($info as $this->hreflangAttribute => $this->additionalParameters) {
                     $this->validRelation = true;
-                    $this->signalSlotDispatcher->dispatch(__CLASS__, 'backend_beforeRenderSingleHreflangAttribute', [$this]);
+                    $this->dispatch(new BackendBeforeRenderSingleHreflangAttributeEvent($this));
                     if ($this->validRelation) {
                         $this->hreflangAttributes[] = '<li>' . $this->hreflangAttribute . (strlen($this->additionalParameters['mountPoint']) > 0 ? ' (MountPoint ' . $this->additionalParameters['mountPoint'] . ')' : '') . ((int)($this->additionalParameters['sysLanguageUid']) > 0 ? ' (SysLanguageUid ' . $this->additionalParameters['sysLanguageUid'] . ')' : '') . (strlen($this->additionalParameters['additionalGetParameters']) > 0 ? ' (AdditionalGetParameters ' . $this->additionalParameters['additionalGetParameters'] . ')' : '') . (strlen($this->additionalParameters['domainName']) > 0 ? ' (DomainName ' . $this->additionalParameters['domainName'] . ')' : '') . '</li>';
                     }
-                    $this->signalSlotDispatcher->dispatch(__CLASS__, 'backend_afterRenderSingleHreflangAttribute', [$this]);
+                    $this->dispatch(new BackendAfterRenderSingleHreflangAttributeEvent($this));
                 }
                 if (count($this->hreflangAttributes) > 0) {
                     $this->renderedListItem .= '<ul style="list-style:disc inside; margin-left: 20px;">' . implode($this->hreflangAttributes) . '</ul>';
                 }
                 $this->renderedListItem .= '</li>';
-                $this->signalSlotDispatcher->dispatch(__CLASS__, 'backend_afterRenderSinglePage', [$this]);
+                $this->dispatch(new BackendAfterRenderSinglePageEvent($this));
                 $this->renderedListItems[] = $this->renderedListItem;
             }
             sort($this->renderedListItems);
             $this->renderedList = '<ul>' . implode($this->renderedListItems) . '</ul>';
         }
 
-        $this->signalSlotDispatcher->dispatch(__CLASS__, 'backend_afterRender', [$this]);
+        $this->dispatch(new BackendAfterRenderEvent($this));
 
         return $this->renderedList;
+    }
+
+    protected function dispatch($event) : void
+    {
+        $eventDispatcher = GeneralUtility::makeInstance(EventDispatcher::class);
+        $eventDispatcher->dispatch($event);
     }
 
     /**
@@ -154,7 +160,7 @@ class HreflangTags implements LoggerAwareInterface
     {
         $this->renderedList = '';
         $this->renderedListItems = [];
-        if ((int)($GLOBALS['TSFE']->id) > 0) {
+        if ((int)$GLOBALS['TSFE']->id > 0) {
             $this->getParameters = $GLOBALS['TYPO3_REQUEST']->getQueryParams();
 
             $relations = $this->getCachedRelations($GLOBALS['TSFE']->id);
@@ -176,11 +182,15 @@ class HreflangTags implements LoggerAwareInterface
                         $this->getParameters = array_merge($this->getParameters, $additionalParameters);
                     }
 
-                    $this->signalSlotDispatcher->dispatch(__CLASS__, 'frontend_beforeRenderSingleTag', [$this]);
+                    $this->dispatch(new FrontendBeforeRenderSingleTagEvent($this));
+
+                    \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($this->getValidRelation(), 'danach');
+                    die();
+
                     if ($this->validRelation) {
                         $this->renderedListItem = '<link rel="alternate" hreflang="' . $this->hreflangAttribute . '" href="' . $this->buildLink() . '" />';
                     }
-                    $this->signalSlotDispatcher->dispatch(__CLASS__, 'frontend_afterRenderSingleTag', [$this]);
+                    $this->dispatch(new FrontendAfterRenderSingleTagEvent($this));
                     if ($this->renderedListItem !== '') {
                         $this->renderedListItems[] = $this->renderedListItem;
                     }
@@ -192,7 +202,7 @@ class HreflangTags implements LoggerAwareInterface
 
         $this->renderedList = $content . $this->renderedList;
 
-        $this->signalSlotDispatcher->dispatch(__CLASS__, 'frontend_afterRender', [$this]);
+        $this->dispatch(new FrontendAfterRenderEvent($this));
 
         return $this->renderedList;
     }
@@ -338,6 +348,8 @@ class HreflangTags implements LoggerAwareInterface
      */
     public function setValidRelation($validRelation): void
     {
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump('setValidRelation');
+
         $this->validRelation = $validRelation;
     }
 
@@ -474,18 +486,15 @@ class HreflangTags implements LoggerAwareInterface
             }
         }
 
-        $this->signalSlotDispatcher->dispatch(__CLASS__, 'buildHreflangAttributes', [$this]);
+        $this->dispatch(new BuildHreflangAttributesEvent($this));
 
         return $this->hreflangAttributes;
     }
 
     /**
      * Search for pages in the $rootline, which are mounted somewhere and return an array with mpvars
-     *
-     * @param array $rootline
-     * @return mixed
      */
-    protected function getMountPoints($rootline)
+    protected function getMountPoints(array $rootline) : mixed
     {
         $rootlineIds = [];
         foreach ($rootline as $page) {
@@ -505,11 +514,8 @@ class HreflangTags implements LoggerAwareInterface
 
     /**
      * Search for the closest page with is_siteroot=1 in the rootline
-     *
-     * @param array $rootline
-     * @return int
      */
-    protected function getRootPageId($rootline)
+    protected function getRootPageId(array $rootline) : int
     {
         $rootPageId = 0;
         foreach ($rootline as $rootlinePage) {
@@ -521,10 +527,7 @@ class HreflangTags implements LoggerAwareInterface
         return $rootPageId;
     }
 
-    /**
-     * @return string
-     */
-    protected function buildLink()
+    protected function buildLink() : string
     {
         if (is_array($this->getParameters)) {
             if (!empty($this->getParameters)) {
@@ -561,7 +564,7 @@ class HreflangTags implements LoggerAwareInterface
      *
      * @return string The final TypoLink string
      */
-    protected static function createTypolinkParameterFromArguments($parameter, $additionalParameters = '')
+    protected static function createTypolinkParameterFromArguments(string $parameter, string $additionalParameters = '') : string
     {
         $typoLinkCodec = GeneralUtility::makeInstance(\TYPO3\CMS\Core\LinkHandling\TypoLinkCodecService::class);
         $typolinkConfiguration = $typoLinkCodec->decode($parameter);
@@ -575,7 +578,7 @@ class HreflangTags implements LoggerAwareInterface
      * @param array $parsed_url result from parse_url
      * @return string
      */
-    protected function unparse_url($parsed_url)
+    protected function unparse_url(array $parsed_url) : string
     {
         $scheme = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
         $host = isset($parsed_url['host']) ? $parsed_url['host'] : '';
