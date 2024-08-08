@@ -22,3 +22,8 @@ This extension was created by the bgm websolutions development team and Marco Hu
 * <a href="https://marco-huber.de">Marco Huber</a>, <a href="https://twitter.com/mhuber84">@mhuber84</a>, mail@marco-huber.de
 
 Feel free to contribute and send in pull requests or create an issue.
+
+## Upgrade notices to version 12
+
+* Move your configuration from $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang'] to $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['bgm_hreflang'].
+* If you use some signal slots, you have to switch them to PSR-14 events.
