@@ -24,8 +24,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Frontend\Service\TypoLinkCodecService;
-use ZARGES\ZargesProducts\Event\AfterImportPreparedDataEvent;
 
 class HreflangTags implements LoggerAwareInterface
 {
@@ -364,7 +362,7 @@ class HreflangTags implements LoggerAwareInterface
         $cacheIdentifier = implode('_', $relatedPages);
         $relationFromCache = $this->getCacheInstance()->get($cacheIdentifier);
         //Check, if the current page is already cached
-        if (0 && is_array($relationFromCache)) {
+        if (is_array($relationFromCache)) {
             $relations = $relationFromCache;
         } else {
             // If $relationsFromCache is empty array, it hasn't been cached. Calculate the value and store it in the cache:
@@ -383,9 +381,6 @@ class HreflangTags implements LoggerAwareInterface
             }
             $this->getCacheInstance()->set((string)$cacheIdentifier, $relations, $tags, 84000);
         }
-
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($relations);
-        die();
 
         return $relations;
     }
