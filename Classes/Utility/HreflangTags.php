@@ -184,9 +184,6 @@ class HreflangTags implements LoggerAwareInterface
 
                     $this->dispatch(new FrontendBeforeRenderSingleTagEvent($this));
 
-                    \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($this->getValidRelation(), 'danach');
-                    die();
-
                     if ($this->validRelation) {
                         $this->renderedListItem = '<link rel="alternate" hreflang="' . $this->hreflangAttribute . '" href="' . $this->buildLink() . '" />';
                     }
@@ -348,8 +345,6 @@ class HreflangTags implements LoggerAwareInterface
      */
     public function setValidRelation($validRelation): void
     {
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump('setValidRelation');
-
         $this->validRelation = $validRelation;
     }
 
