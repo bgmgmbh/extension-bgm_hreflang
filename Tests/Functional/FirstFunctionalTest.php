@@ -24,7 +24,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
         ];
 
     protected $configurationToUseInTestInstance = [
-        'EXTCONF' => [
+        'EXTENSIONS' => [
             'bgm_hreflang' => [
                 'countryMapping' => [
                     2 => [ //International

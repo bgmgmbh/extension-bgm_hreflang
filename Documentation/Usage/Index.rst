@@ -80,7 +80,7 @@ Configuration
 		21 => 'it', //italian
 		31 => 'fr', //french
 	);
-	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['countryMapping'] = array(
+	$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['bgm_hreflang']['countryMapping'] = array(
 		//Example
 		61 => array( //International
 			'countryCode' => 'en',
@@ -100,7 +100,7 @@ Configuration
 			'languageMapping' => $languageMapping + array(0 => 'it'),
 		),
 	);
-	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['defaultCountryId'] = 61;
+	$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['bgm_hreflang']['defaultCountryId'] = 61;
 
 Output
 ``````

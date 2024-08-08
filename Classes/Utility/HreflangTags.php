@@ -369,7 +369,7 @@ class HreflangTags implements LoggerAwareInterface
         $cacheIdentifier = implode('_', $relatedPages);
         $relationFromCache = $this->getCacheInstance()->get($cacheIdentifier);
         //Check, if the current page is already cached
-        if (is_array($relationFromCache)) {
+        if (0 && is_array($relationFromCache)) {
             $relations = $relationFromCache;
         } else {
             // If $relationsFromCache is empty array, it hasn't been cached. Calculate the value and store it in the cache:
@@ -383,11 +383,14 @@ class HreflangTags implements LoggerAwareInterface
             $tags = array_map(function ($value) {
                 return 'pageId_' . $value;
             }, $relatedPages);
-            if (!empty($tags) && $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['feature']['clearCacheInFrontent']) {
+            if (!empty($tags) && $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['bgm_hreflang']['feature']['clearCacheInFrontent']) {
                 $this->getCacheManager()->flushCachesInGroupByTags('pages', $tags);
             }
             $this->getCacheInstance()->set((string)$cacheIdentifier, $relations, $tags, 84000);
         }
+
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($relations);
+        die();
 
         return $relations;
     }
@@ -420,10 +423,10 @@ class HreflangTags implements LoggerAwareInterface
             return $this->hreflangAttributes;
         }
 
-        $countryMapping = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['countryMapping'][(int)$rootPageId];
-        $defaultCountryId = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['defaultCountryId'];
-        $domainName = (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['countryMapping'][(int)$rootPageId]['domainName']))?
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['countryMapping'][(int)$rootPageId]['domainName'] :'';
+        $countryMapping = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['bgm_hreflang']['countryMapping'][(int)$rootPageId];
+        $defaultCountryId = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['bgm_hreflang']['defaultCountryId'];
+        $domainName = (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['bgm_hreflang']['countryMapping'][(int)$rootPageId]['domainName']))?
+            $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['bgm_hreflang']['countryMapping'][(int)$rootPageId]['domainName'] :'';
 
         if ($rootPageId == $defaultCountryId || isset($countryMapping['languageMapping'][0])) {
             $this->hreflangAttributes[($rootPageId == $defaultCountryId ? 'x-default' : $countryMapping['languageMapping'][0] . '-' . $countryMapping['countryCode'])] = [

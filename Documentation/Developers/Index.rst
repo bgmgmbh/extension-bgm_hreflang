@@ -39,7 +39,7 @@ And use this in your AdditionalConfiguration.php:
 
 .. code:: php
 
-	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang'] = array(
+	$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['bgm_hreflang'] = array(
 		'countryMapping' => array(
 			2 => array( //International
 				'countryCode' => 'en',

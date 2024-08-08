@@ -25,7 +25,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['proc
 
 //Cache is cleared in frontend for all related pages if no cache entry for the current page has been found.
 //Here you can disable this behaviour, if you are sure the new DataHandler backend hook is enough cache clearing.
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['feature']['clearCacheInFrontent'] = true;
+$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['bgm_hreflang']['feature']['clearCacheInFrontent'] = true;
 
 /**
  * DEMO CONFIGURATION
@@ -40,7 +40,7 @@ $languageMapping = array(
 );
 //"pageid" is the rootpage of a country tree. It has to be unique in the array $countryMapping!
 //"isocountrycode" has to be unique in the array $countryMapping!
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['countryMapping'] = array(
+$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['bgm_hreflang']['countryMapping'] = array(
     pageid => array(
         'countryCode' => isocountrycode,
         //"$languageMapping + array(0 => isolanguagecode)" can be assigned more than once with the same isolanguagecode as languageMapping in the array countryMapping.
@@ -81,5 +81,5 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['countryMapping'] = array
     ),
 );
 //If L==0, pages in this tree are rendered with 'x-default', else only the isolanguagecode is used (without the isocountrycode)
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bgm_hreflang']['defaultCountryId'] = 12;
+$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['bgm_hreflang']['defaultCountryId'] = 12;
 */
