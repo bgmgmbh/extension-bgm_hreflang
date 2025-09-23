@@ -29,6 +29,7 @@ class HreflangTags implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
+    protected ConnectionPool $connectionPool;
     protected EventDispatcher $eventDispatcher;
 
     /**
@@ -97,6 +98,7 @@ class HreflangTags implements LoggerAwareInterface
 
     public function __construct()
     {
+        $this->connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
         $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcher::class);
     }
 
@@ -158,12 +160,12 @@ class HreflangTags implements LoggerAwareInterface
     {
         $this->renderedList = '';
         $this->renderedListItems = [];
-        if ((int)$GLOBALS['TSFE']->id > 0) {
+        if ((int)$GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId() > 0) {
             $this->getParameters = $GLOBALS['TYPO3_REQUEST']->getQueryParams();
 
-            $relations = $this->getCachedRelations($GLOBALS['TSFE']->id);
-
+            $relations = $this->getCachedRelations($GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId());
             foreach ($relations as $this->relatedPage => $info) {
+
                 foreach ($info as $this->hreflangAttribute => $this->additionalParameters) {
                     $this->renderedListItem = '';
                     $this->validRelation = true;
@@ -367,6 +369,7 @@ class HreflangTags implements LoggerAwareInterface
         } else {
             // If $relationsFromCache is empty array, it hasn't been cached. Calculate the value and store it in the cache:
             $relations = [];
+
             foreach($relatedPages as $relatedPage) {
                 $relations[$relatedPage] = $this->buildHreflangAttributes($relatedPage);
             }
@@ -427,7 +430,7 @@ class HreflangTags implements LoggerAwareInterface
             ];
         }
 
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+        $queryBuilder = $this->connectionPool
             ->getQueryBuilderForTable('pages');
         $translations = $queryBuilder
             ->select('sys_language_uid')
@@ -493,7 +496,7 @@ class HreflangTags implements LoggerAwareInterface
         foreach ($rootline as $page) {
             $rootlineIds[] = $page['uid'];
         }
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+        $queryBuilder = $this->connectionPool
             ->getQueryBuilderForTable('pages');
         $queryBuilder->getRestrictions()->removeAll()
             ->add(GeneralUtility::makeInstance(DeletedRestriction::class));

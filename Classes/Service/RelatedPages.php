@@ -30,6 +30,7 @@ class RelatedPages
                 ->select('mm.*')
                 ->from('tx_bgmhreflang_page_page_mm', 'mm')
                 ->leftJoin('mm', 'pages', 'p', 'mm.uid_foreign = p.uid')->where($queryBuilder->expr()->eq('mm.uid_local', (int)$pageId))->executeQuery()->fetchAllAssociative();
+
             foreach ($directRelations as $directRelation) {
                 if (!isset($relatedPages[$directRelation['uid_foreign']])) {
                     self::buildRelations($directRelation['uid_foreign'], $relatedPages);
@@ -52,5 +53,4 @@ class RelatedPages
             }
         }
     }
-
 }

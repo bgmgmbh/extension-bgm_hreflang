@@ -6,3 +6,27 @@ services:
 
   BGM\BgmHreflang\:
     resource: '../Classes/*'
+
+  BGM\BgmHreflang\Event\DataHandlerEventListener:
+    tags:
+      # Before Events (entspricht processDatamap_preProcessFieldArray)
+      - name: event.listener
+        identifier: 'bgm-hreflang-before-record-updated'
+        event: TYPO3\CMS\Core\DataHandling\Event\BeforeRecordUpdatedEvent
+        method: 'handleBeforeRecordUpdated'
+
+      - name: event.listener
+        identifier: 'bgm-hreflang-before-record-created'
+        event: TYPO3\CMS\Core\DataHandling\Event\BeforeRecordCreatedEvent
+        method: 'handleBeforeRecordCreated'
+
+      # After Events (entspricht processDatamap_afterDatabaseOperations)
+      - name: event.listener
+        identifier: 'bgm-hreflang-record-updated'
+        event: TYPO3\CMS\Core\DataHandling\Event\RecordUpdatedEvent
+        method: 'handleRecordUpdated'
+
+      - name: event.listener
+        identifier: 'bgm-hreflang-record-created'
+        event: TYPO3\CMS\Core\DataHandling\Event\RecordCreatedEvent
+        method: 'handleRecordCreated'

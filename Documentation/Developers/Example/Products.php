@@ -68,13 +68,13 @@ class HreflangTags
         $storagePageId = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['realurl']['development.bgm.projects.localhost']['preVars'][0]['countryMapping'][(int)$rootPageId]['productStorage'];
 
         if (isset($currentProduct['treeGroup'])) {
-            $treeGroup = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('uid', 'tx_products_domain_model_treegroup', 'ean LIKE ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($currentProduct['treeGroup']['ean'], 'tx_products_domain_model_treegroup') . ' AND pid=' . (int)$storagePageId . ' AND sys_language_uid=' . (int)$sysLanguageUid . ' ' . $GLOBALS['TSFE']->sys_page->enableFields('tx_products_domain_model_treegroup'));
+            $treeGroup = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('uid', 'tx_products_domain_model_treegroup', 'ean LIKE ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($currentProduct['treeGroup']['ean'], 'tx_products_domain_model_treegroup') . ' AND pid=' . (int)$storagePageId . ' AND sys_language_uid=' . (int)$sysLanguageUid . ' ' . \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Domain\Repository\PageRepository::class)->enableFields('tx_products_domain_model_treegroup'));
 
             $products['treeGroup'] = (int)($treeGroup['uid']);
         }
 
         if (isset($currentProduct['product'])) {
-            $product = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('uid', 'tx_products_domain_model_product', 'ean LIKE ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($currentProduct['product']['ean'], 'tx_products_domain_model_product') . ' AND pid=' . (int)$storagePageId . ' AND sys_language_uid=' . (int)$sysLanguageUid . ' ' . $GLOBALS['TSFE']->sys_page->enableFields('tx_products_domain_model_product'));
+            $product = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('uid', 'tx_products_domain_model_product', 'ean LIKE ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($currentProduct['product']['ean'], 'tx_products_domain_model_product') . ' AND pid=' . (int)$storagePageId . ' AND sys_language_uid=' . (int)$sysLanguageUid . ' ' . \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Domain\Repository\PageRepository::class)->enableFields('tx_products_domain_model_product'));
 
             $products['product'] = (int)($product['uid']);
         }
