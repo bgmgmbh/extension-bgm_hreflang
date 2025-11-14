@@ -44,7 +44,7 @@ class HreflangTags implements LoggerAwareInterface
      *
      * @see renderBackendList(), renderFrontendList()
      */
-    protected int $relatedPage;
+    protected int $relatedPage = 0;
 
     /**
      * current hreflang attribute for the related page
@@ -66,7 +66,7 @@ class HreflangTags implements LoggerAwareInterface
      *
      * @see renderBackendList(), renderFrontendList()
      */
-    protected array $additionalParameters;
+    protected array $additionalParameters = [];
 
     /**
      * rendered item
@@ -535,7 +535,7 @@ class HreflangTags implements LoggerAwareInterface
         $contentObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $link = $contentObject->typoLink_URL(
             [
-                'parameter' => self::createTypolinkParameterFromArguments($this->relatedPage, $additionalParams),
+                'parameter' => self::createTypolinkParameterFromArguments((string)$this->relatedPage, (string)$additionalParams),
                 'forceAbsoluteUrl' => true,
             ]
         );
