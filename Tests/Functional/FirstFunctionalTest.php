@@ -1,5 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 extension "BGM hreflang".
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
 namespace BGM\BgmHreflang\Tests\Functional;
 
 use Nimut\TestingFramework\Http\Response;
@@ -7,13 +22,13 @@ use PHPUnit\Util\PHP\DefaultPhpProcess;
 use SebastianBergmann\Template\Template;
 
 /**
- * Class FirstFunctionalTest
+ * Functional tests for the hreflang tags rendered in the frontend.
+ *
  * https://de.slideshare.net/cpsitgmbh/functional-tests-with-typo3
  * typo3DatabaseName="bgm_hreflang" typo3DatabaseUsername="project" typo3DatabasePassword="project" typo3DatabaseHost="127.0.0.1" typo3DatabasePort="3308" TYPO3_PATH_WEB="$PWD/.Build/Web" $PWD/.Build/bin/phpunit -c $PWD/.Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml $PWD/.Build/Web/typo3conf/ext/bgm_hreflang/Tests/Functional
  */
 class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTestCase
 {
-
     /**
      * Ensure your extension is loaded
      *
@@ -21,8 +36,11 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      */
     protected $testExtensionsToLoad = [
         'typo3conf/ext/bgm_hreflang',
-        ];
+    ];
 
+    /**
+     * @var array<string, mixed>
+     */
     protected $configurationToUseInTestInstance = [
         'EXTENSIONS' => [
             'bgm_hreflang' => [
@@ -51,9 +69,15 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
         ],
     ];
 
+    /**
+     * @var string
+     */
     protected $fixturePath;
 
-    protected function setUp() :void
+    /**
+     * Imports the fixtures and sets up the three site root pages.
+     */
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -355,7 +379,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
     }
 
     /**
-     * \Nimut\TestingFramework\TestCase\AbstractFunctionalTestCase::getFrontendResponse extended for MountPages $mp
+     * Same as AbstractFunctionalTestCase::getFrontendResponse(), extended for mount pages ($mp).
      *
      * @param int $pageId
      * @param int $languageId
@@ -366,7 +390,7 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
      * @param int $frontendUserId
      * @return Response
      */
-    protected function getFrontendResponseWithMountpoint($pageId, $languageId = 0, $mp=0, $backendUserId = 0, $workspaceId = 0, $failOnFailure = true, $frontendUserId = 0)
+    protected function getFrontendResponseWithMountpoint($pageId, $languageId = 0, $mp = 0, $backendUserId = 0, $workspaceId = 0, $failOnFailure = true, $frontendUserId = 0)
     {
         $pageId = (int)$pageId;
         $languageId = (int)$languageId;
@@ -407,11 +431,11 @@ class FirstFunctionalTest extends \Nimut\TestingFramework\TestCase\FunctionalTes
         $result = json_decode($response['stdout'], true);
 
         if ($result === null) {
-            $this->fail('Frontend Response is empty.' . LF . 'Error: ' . LF . $response['stderr']);
+            self::fail('Frontend Response is empty.' . LF . 'Error: ' . LF . $response['stderr']);
         }
 
         if ($failOnFailure && $result['status'] === Response::STATUS_Failure) {
-            $this->fail('Frontend Response has failure:' . LF . $result['error']);
+            self::fail('Frontend Response has failure:' . LF . $result['error']);
         }
 
         $response = new Response($result['status'], $result['content'], $result['error']);
